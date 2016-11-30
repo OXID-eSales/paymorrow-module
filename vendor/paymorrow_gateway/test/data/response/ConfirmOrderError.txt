@@ -1,0 +1,11 @@
+order_id=order_confirm4
+response_status=ERROR
+request_id=9876543210
+response_time=2014-02-18T15%3A56%3A01.465
+response_id=f02f0b3c-65b7-4b70-80a4-f8e157c98353
+error_1_code=100
+error_1_group=GENERAL
+error_1_itemName=pm_order_transaction_id
+error_1_technicalDesc=MISSING_REQUIRED_FIELD
+error_1_consumerShortDesc=Short+desc+%23100+-+item%3A+pm_order_transaction_id+value%3A+null
+error_1_consumerDetailDesc=Consumer+detail+description+of+error+%23100+for+field+pm_order_transaction_id+with+invalid+value+%5Bnull%5D

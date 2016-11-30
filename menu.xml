@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<OX>
+    <OXMENU id="NAVIGATION_ESHOPADMIN">
+        <MAINMENU id="mxshopsett">
+            <SUBMENU id="mxpaymeth" cl="admin_payment" list="payment_list">
+                <TAB id="oxpspaymorrow_payment_map" cl="oxpspaymorrowpaymentmap"/>
+            </SUBMENU>
+        </MAINMENU>
+        <MAINMENU id="mxextensions">
+            <SUBMENU id="mxmodule" cl="module" list="module_list">
+                <TAB id="oxpspaymorrow_form_error_log" cl="oxpspaymorrowadminerrorlog"/>
+            </SUBMENU>
+        </MAINMENU>
+    </OXMENU>
+</OX>

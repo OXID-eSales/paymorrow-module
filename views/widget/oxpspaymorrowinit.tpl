@@ -1,0 +1,6 @@
+[{assign var="oUser" value=$oView->getUser()}]
+[{oxscript include=$oView->getPaymorrowResourceControllerJavaScript() priority=2}]
+[{oxstyle include=$oView->getPaymorrowResourceControllerCSS()}]
+[{if $oUser}]
+    [{oxscript add=$oView->getPaymorrowJavaScriptPmInitFull()}]
+[{/if}]

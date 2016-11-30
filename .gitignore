@@ -1,0 +1,11 @@
+# IDE stuff
+.idea/
+
+# Configuration
+paymorrow_config.php
+
+# Tests reports
+certification/
+coverage/
+metrics.txt
+metrics.xml

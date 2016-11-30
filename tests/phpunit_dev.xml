@@ -1,0 +1,34 @@
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap.php"
+         cacheTokens="true"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         strict="false"
+         verbose="false">
+    <filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">	 
+            <directory suffix=".php">../source/modules/oxps/paymorrow</directory>
+			<exclude>
+				<directory suffix=".php">../source/modules/oxps/paymorrow/changed_full/</directory>
+				<directory suffix=".php">../source/modules/oxps/paymorrow/docs/</directory>
+                <directory suffix=".php">../source/modules/oxps/paymorrow/out/</directory>
+                <directory suffix=".php">../source/modules/oxps/paymorrow/tests/</directory>
+                <directory suffix=".php">../source/modules/oxps/paymorrow/translations/</directory>
+                <directory suffix=".php">../source/modules/oxps/paymorrow/vendor/</directory>
+                <directory suffix=".php">../source/modules/oxps/paymorrow/views/</directory>
+                <file suffix=".php">../source/modules/oxps/paymorrow/core/oxpspaymorrowmodule.php</file>
+                <file suffix=".php">../source/modules/oxps/paymorrow/metadata.php</file>
+			</exclude>
+        </whitelist>
+    </filter>
+</phpunit>

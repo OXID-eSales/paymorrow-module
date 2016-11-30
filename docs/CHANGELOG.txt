@@ -1,0 +1,11 @@
+Paymorrow changelog
+===================
+
+v1.0.1
+------
+ * Paymorrow gateway updated to version "patch_20150129"
+ * User manuals extended for information on module integration in highly customized shops
+
+v1.0.0
+------
+ * Initial release
