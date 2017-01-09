@@ -99,7 +99,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
         // Add surcharge price in case it is not yet included in basket
         $oSurchargePrice = $this->_getPaymentMethodSurcharge();
 
-        if ( !empty( $oSurchargePrice ) and ( $oSurchargePrice instanceof oxPrice ) ) {
+        if ( !empty( $oSurchargePrice ) and is_object( $oSurchargePrice ) ) {
             $dTotalPrice += (double) $oSurchargePrice->getPrice();
         }
 
@@ -143,7 +143,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
      */
     protected function _getVatForValidPrice( $mPrice )
     {
-        if ( empty( $mPrice ) or !( $mPrice instanceof oxPrice ) ) {
+        if ( empty( $mPrice ) or !is_object( $mPrice ) ) {
             return 0.0;
         }
 
@@ -221,7 +221,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
      */
     protected function _validateCostPriceAndGetItsData( $mPrice, $iLineItem, $sCost )
     {
-        if ( empty( $mPrice ) or !( $mPrice instanceof oxPrice ) or !$mPrice->getPrice() ) {
+        if ( empty( $mPrice ) or !is_object( $mPrice ) or !$mPrice->getPrice() ) {
             return array();
         }
 
@@ -231,13 +231,13 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
     /**
      * Get cost line item summary data as array.
      *
-     * @param integer $iLineItem
-     * @param string  $sCostName
-     * @param oxPrice $oPrice
+     * @param integer                              $iLineItem
+     * @param string                               $sCostName
+     * @param oxPrice|\OxidEsales\Eshop\Core\Price $oPrice
      *
      * @return array
      */
-    protected function _getCostSummary( $iLineItem, $sCostName, oxPrice $oPrice )
+    protected function _getCostSummary( $iLineItem, $sCostName, $oPrice )
     {
         $sPmPrefix = OxpsPaymorrowOxBasketItem::getPaymorrowBasketSummaryLineItemPrefix( $iLineItem );
 
@@ -351,7 +351,9 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
     {
         /** @var OxpsPaymorrowOxBasket|oxBasket $this */
 
-        $sId = (string) $this->getTsProductId();
+        $sId = method_exists($this, 'getTsProductId')
+            ? (string) $this->getTsProductId()
+            : '';
 
         if ( !empty( $sId ) ) {
             $sId = $this->_toUtf( $sId );
@@ -396,7 +398,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
      */
     protected function _formatPriceItemResponse( $mPrice, $mLineItem )
     {
-        if ( !is_null( $mLineItem ) and ( $mPrice instanceof oxPrice ) ) {
+        if ( !is_null( $mLineItem ) and is_object( $mPrice ) ) {
             return $this->_getCostSummary( (int) $mLineItem, 'oxpayment', $mPrice );
         }
 
