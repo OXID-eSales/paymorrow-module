@@ -233,7 +233,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
      *
      * @param integer                              $iLineItem
      * @param string                               $sCostName
-     * @param oxPrice|\OxidEsales\Eshop\Core\Price $oPrice
+     * @param oxPrice $oPrice
      *
      * @return array
      */
