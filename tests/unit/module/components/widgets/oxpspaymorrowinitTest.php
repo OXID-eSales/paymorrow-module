@@ -151,8 +151,6 @@ class Unit_Module_Components_OxpsPaymorrowInitTest extends OxidTestCase
 
     public function testGetSelectedPaymorrowMethod_validPaymorrowPaymentIdIsInSession_loadTheMethodReturnItCode()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         /** @var PHPUnit_Framework_MockObject_MockObject|OxpsPaymorrowInit $SUT */
         $SUT = $this->getMock( 'OxpsPaymorrowInit', array('init') );
 
@@ -176,16 +174,13 @@ class Unit_Module_Components_OxpsPaymorrowInitTest extends OxidTestCase
             $this->returnValue( 'pm_invoice' )
         );
 
-        //oxTestModules::addModuleObject( 'OxpsPaymorrowOxPayment', $oPaymentMock );
-        \OxidEsales\EshopCommunity\Core\Registry::set('OxpsPaymorrowOxPayment', $oPaymentMock);
+        oxTestModules::addModuleObject( 'OxpsPaymorrowOxPayment', $oPaymentMock );
 
         $this->assertSame( 'pm_invoice', $SUT->getSelectedPaymorrowMethod() );
     }
 
     public function testGetSelectedPaymorrowMethod_noValidPaymentIdInSession_loadDefaultSelectedPaymorrowMethodAndReturnItsCode()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         /** @var PHPUnit_Framework_MockObject_MockObject|OxpsPaymorrowInit $SUT */
         $SUT = $this->getMock( 'OxpsPaymorrowInit', array('init') );
 
@@ -205,16 +200,13 @@ class Unit_Module_Components_OxpsPaymorrowInitTest extends OxidTestCase
             $this->returnValue( 'pm_sdd' )
         );
 
-        //oxTestModules::addModuleObject( 'OxpsPaymorrowOxPayment', $oPaymentMock );
-        \OxidEsales\EshopCommunity\Core\Registry::set('OxpsPaymorrowOxPayment', $oPaymentMock);
+        oxTestModules::addModuleObject( 'OxpsPaymorrowOxPayment', $oPaymentMock );
 
         $this->assertSame( 'pm_sdd', $SUT->getSelectedPaymorrowMethod() );
     }
 
     public function testGetSelectedPaymorrowMethod_noValidMethodLoaded_returnEmptyString()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         /** @var PHPUnit_Framework_MockObject_MockObject|OxpsPaymorrowInit $SUT */
         $SUT = $this->getMock( 'OxpsPaymorrowInit', array('init') );
 
@@ -234,8 +226,7 @@ class Unit_Module_Components_OxpsPaymorrowInitTest extends OxidTestCase
         $oPaymentMock->expects( $this->once() )->method( 'loadPaymorrowDefault' )->will( $this->returnValue( false ) );
         $oPaymentMock->expects( $this->once() )->method( 'getPaymorrowPaymentType' )->will( $this->returnValue( '' ) );
 
-        //oxTestModules::addModuleObject( 'OxpsPaymorrowOxPayment', $oPaymentMock );
-        \OxidEsales\EshopCommunity\Core\Registry::set('OxpsPaymorrowOxPayment', $oPaymentMock);
+        oxTestModules::addModuleObject( 'OxpsPaymorrowOxPayment', $oPaymentMock );
 
         $this->assertSame( '', $SUT->getSelectedPaymorrowMethod() );
     }
@@ -243,16 +234,13 @@ class Unit_Module_Components_OxpsPaymorrowInitTest extends OxidTestCase
 
     public function testGetPaymorrowPrintData_callForPrintDataFromOxidToPaymorrowClassAndReturnIt()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         // Oxid2Paymorrow mock
         $oOxid2PaymorrowMock = $this->getMock( 'OxpsOxid2Paymorrow', array('__construct', 'getPaymorrowPrintData') );
         $oOxid2PaymorrowMock->expects( $this->once() )->method( 'getPaymorrowPrintData' )->will(
             $this->returnValue( 'jsPrint-Data' )
         );
 
-        //oxTestModules::addModuleObject( 'OxpsOxid2Paymorrow', $oOxid2PaymorrowMock );
-        \OxidEsales\EshopCommunity\Core\Registry::set('OxpsOxid2Paymorrow', $oOxid2PaymorrowMock);
+        oxTestModules::addModuleObject( 'OxpsOxid2Paymorrow', $oOxid2PaymorrowMock );
 
         $SUT = $this->getProxyClass( 'OxpsPaymorrowInit' );
 

@@ -274,8 +274,6 @@ class Unit_Module_Core_OxpsPaymorrowRequestControllerProxyTest extends OxidTestC
 
     public function testUpdateUserData_shippingAddressAvailable_callUserProfileAndShippingAddressUpdates()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         $this->setSessionParam( 'blshowshipaddress', '1' );
 
         $aData = array('pm_customer_firstName' => 'John');

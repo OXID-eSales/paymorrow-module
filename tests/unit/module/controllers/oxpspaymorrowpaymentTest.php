@@ -77,9 +77,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsNotPaymorrow_returnParentResult()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'COD');
+        $this->setRequestParameter('paymentid', 'COD');
 
         // Payment mock
         $this->_setPaymentMock('COD', true, false);
@@ -89,9 +87,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsOkAndPaymorrowResponseEmpty_returnNull()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam('pm_responseINVOICE', array());
 
@@ -103,9 +99,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsOkAndPaymorrowResponseStatusEmpty_returnNull()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam('pm_responseINVOICE', array('order_status' => 'VALIDATED'));
 
@@ -117,9 +111,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsOkAndPaymorrowResponseStatusIsError_returnNull()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam(
             'pm_responseINVOICE', array('order_status' => 'VALIDATED', 'response_status' => 'Error')
@@ -133,9 +125,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsOkAndPaymorrowResponseOrderStatusEmpty_returnNull()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam('pm_responseINVOICE', array('response_status' => 'OK'));
 
@@ -147,9 +137,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsOkAndPaymorrowResponseOrderStatusInvalid_returnNull()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam(
             'pm_responseINVOICE', array('order_status' => 'INVALIDATED', 'response_status' => 'OK')
@@ -163,9 +151,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_responseDoesNotMatchSelectedPaymentMethod_returnNull()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'SDD'));
         $this->setSessionParam(
             'pm_responseINVOICE', array('order_status' => 'VALIDATED', 'response_status' => 'OK')
@@ -179,9 +165,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_paymentMethodIsOkAndPaymorrowResponseIsOk_returnParentResult()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam(
             'pm_responseINVOICE', array('order_status' => 'VALIDATED', 'response_status' => 'OK')
@@ -195,9 +179,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentTest extends OxidTestCase
 
     public function testValidatePayment_orderStatusIsAccepted_alsoReturnParentResult()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam('paymentid', 'invoice');
+        $this->setRequestParameter('paymentid', 'invoice');
         $this->setSessionParam('pm_verify', array('pm_paymentMethod_name' => 'INVOICE'));
         $this->setSessionParam(
             'pm_responseINVOICE', array('order_status' => 'ACCEPTED', 'response_status' => 'OK')

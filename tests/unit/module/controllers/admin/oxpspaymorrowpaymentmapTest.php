@@ -73,9 +73,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest extends OxidTestCase
 
     public function test_getPaymorrowEditValue_shouldReturnOxPaymentInstance()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam( 'oxid', 'PHP_UNIT_TEST' );
+        $this->setRequestParameter( 'oxid', 'PHP_UNIT_TEST' );
 
         $this->assertTrue( $this->SUT->getPaymorrowEditValue() instanceof oxPayment );
     }
@@ -83,12 +81,9 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest extends OxidTestCase
 
     public function test_getPaymentObjectId_shouldReturnExpectedId()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
-        $this->setConfigParam( 'oxid', 'PHP_UNIT_TEST' );
+        $this->setRequestParameter( 'oxid', 'PHP_UNIT_TEST' );
 
         $this->assertEquals( 'PHP_UNIT_TEST', $this->SUT->getPaymentObjectId() );
-
     }
 
 
@@ -100,7 +95,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest extends OxidTestCase
             'oxpayments__oxpspaymorrowmap'    => 2,
         );
 
-        $this->setConfigParam( 'editval', $aEditVal );
+        $this->setRequestParameter( 'editval', $aEditVal );
 
         $oxPaymentMock = $this->getMock(
             'oxpayment',
@@ -127,7 +122,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest extends OxidTestCase
             'oxpayments__oxpspaymorrowmap'    => 2,
         );
 
-        $this->setConfigParam( 'editval', $aEditVal );
+        $this->setRequestParameter( 'editval', $aEditVal );
 
         $oxPaymentMock = $this->getMock(
             'oxpayment',

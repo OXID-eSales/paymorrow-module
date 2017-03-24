@@ -407,8 +407,6 @@ class Unit_Module_Models_OxpsPaymorrowOxUserTest extends OxidTestCase
 
     public function testMapShippingDataAndUpdateAddress_noFieldsMapped_notUpdateAddress()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         $oAddress = $this->getMock( 'oxAddress', array('__construct', 'load', 'save') );
 
         $oAddress->oxaddress__oxstreet = new oxField( '' );
@@ -422,8 +420,6 @@ class Unit_Module_Models_OxpsPaymorrowOxUserTest extends OxidTestCase
 
     public function testMapShippingDataAndUpdateAddress_mappedFieldValueIsEmpty_notUpdateAddress()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         $oAddress = $this->getMock( 'oxAddress', array('__construct', 'load', 'save') );
 
         $oAddress->oxaddress__oxstreet = new oxField( 'Street st.' );
@@ -437,8 +433,6 @@ class Unit_Module_Models_OxpsPaymorrowOxUserTest extends OxidTestCase
 
     public function testMapShippingDataAndUpdateAddress_fieldIsNotAccepted_notUpdateAddress()
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         $oAddress = $this->getMock( 'oxAddress', array('__construct', 'load', 'save') );
 
         $oAddress->oxaddress__oxcountryid = new oxField( 'DE' );
@@ -460,8 +454,6 @@ class Unit_Module_Models_OxpsPaymorrowOxUserTest extends OxidTestCase
                                                                                                         $sAddressField,
                                                                                                         $sNewValue )
     {
-        $this->markTestIncomplete(); // TODO DDR: rm!
-
         $oAddress = $this->getMock( 'oxAddress', array('__construct', 'load', 'save') );
 
         $oAddress->$sAddressField = new oxField( $sInitValue );
