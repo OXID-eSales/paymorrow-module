@@ -41,10 +41,20 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
     /**
      * @var array Paymorrow payment method type options.
      */
-    private $_aPaymorrowValidPaymentTypes = array(
+    protected $_aPaymorrowValidPaymentTypes = array(
         0 => 'pm_off',
         1 => 'pm_invoice',
         2 => 'pm_sdd', // Direct Debit
+    );
+
+    /**
+     * Mapping Paymorrow payment method name to OXID eShop identifier for it.
+     *
+     * @var array
+     */
+    protected $paymorrowPaymentNameMap = array(
+        'INVOICE' => 1,
+        'SDD'     => 2,
     );
 
 
@@ -57,7 +67,7 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
     {
         $iPaymorrowMap = $this->getPaymorrowPaymentMap();
 
-        return ( ( $iPaymorrowMap == 1 ) OR ( $iPaymorrowMap == 2 ) );
+        return (($iPaymorrowMap == 1) OR ($iPaymorrowMap == 2));
     }
 
     /**
@@ -68,9 +78,9 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
      */
     public function isPaymorrowActiveAndMapped()
     {
-        return ( $this->isPaymorrowActive() and
-                 $this->isPaymentMappedToPaymorrowMethod() and
-                 oxRegistry::get( 'OxpsPaymorrowSettings' )->getMerchantId() );
+        return ($this->isPaymorrowActive() and
+                $this->isPaymentMappedToPaymorrowMethod() and
+                oxRegistry::get('OxpsPaymorrowSettings')->getMerchantId());
     }
 
     /**
@@ -88,9 +98,9 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
      *
      * @param integer $iActive - 0/1 | Disabled/Active
      */
-    public function setPaymorrowActive( $iActive )
+    public function setPaymorrowActive($iActive)
     {
-        $this->oxpayments__oxpspaymorrowactive = new oxField( $iActive );
+        $this->oxpayments__oxpspaymorrowactive = new oxField($iActive);
     }
 
     /**
@@ -132,12 +142,12 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
      * 1 - Paymorrow Invoice
      * 2 - Paymorrow Direct Debit
      */
-    public function setPaymorrowPaymentMap( $iType )
+    public function setPaymorrowPaymentMap($iType)
     {
-        $blValidMapping = array_key_exists( $iType, $this->_aPaymorrowValidPaymentTypes );
+        $blValidMapping = array_key_exists($iType, $this->_aPaymorrowValidPaymentTypes);
 
-        if ( $blValidMapping ) {
-            $this->oxpayments__oxpspaymorrowmap = new oxField( $iType );
+        if ($blValidMapping) {
+            $this->oxpayments__oxpspaymorrowmap = new oxField($iType);
         }
 
         return $blValidMapping;
@@ -165,7 +175,7 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
      *
      * @return bool
      */
-    public function isValidPayment( $aDynValue, $sShopId, $oUser, $dBasketPrice, $sShipSetId )
+    public function isValidPayment($aDynValue, $sShopId, $oUser, $dBasketPrice, $sShipSetId)
     {
         /** @var OxpsPaymorrowOxPayment|oxPayment $this */
 
@@ -176,7 +186,7 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
         $iErrorCode = (int) $this->getPaymentErrorNumber();
 
         // In case it is Paymorrow payment method unset error code and tell than validation passed.
-        if ( $this->isPaymorrowActive() and !$blIsValid and ( $iErrorCode === 1 ) ) {
+        if ($this->isPaymorrowActive() and !$blIsValid and ($iErrorCode === 1)) {
             $this->_iPaymentError = null;
 
             return true;
@@ -197,15 +207,54 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
     {
         /** @var OxpsPaymorrowOxPayment|oxPayment $this */
 
-        $sQuery = sprintf(
-            "SELECT * FROM `%s`
-              WHERE `OXACTIVE` = 1 AND `OXCHECKED` = 1 AND `OXPSPAYMORROWACTIVE` = 1 AND `OXPSPAYMORROWMAP` > 0
-              ORDER BY `OXSORT` ASC, `OXTIMESTAMP` DESC
-              LIMIT 1",
-            getViewName( 'oxpayments' )
+        $query = sprintf(
+            "SELECT * FROM `%s`WHERE %s AND `OXCHECKED` = 1 ORDER BY `OXSORT` ASC, `OXTIMESTAMP` DESC LIMIT 1",
+            $this->getViewName(),
+            $this->getPaymorrowMethodWhereClause()
         );
 
-        return $this->assignRecord( $sQuery );
+        return $this->assignRecord($query);
+    }
+
+    /**
+     * Load active, mapped Paymorrow payment method by it's name.
+     * E.g. by value "INVOICE" or "SDD".
+     *
+     * @param string $methodName
+     *
+     * @codeCoverageIgnore
+     *
+     * @return bool
+     */
+    public function loadByPaymorrowName($methodName)
+    {
+        /** @var OxpsPaymorrowOxPayment|oxPayment $this */
+
+        if (!array_key_exists($methodName, $this->paymorrowPaymentNameMap)) {
+            return false;
+        }
+
+        $query = sprintf(
+            "SELECT * FROM `%s` WHERE %s AND `OXPSPAYMORROWMAP` = %d ORDER BY `OXSORT` ASC, `OXTIMESTAMP` DESC LIMIT 1",
+            $this->getViewName(),
+            $this->getPaymorrowMethodWhereClause(),
+            (int) $this->paymorrowPaymentNameMap[$methodName]
+        );
+
+        return $this->assignRecord($query);
+    }
+
+
+    /**
+     * Get SQL "WHERE" clause for loading Paymorrow payment method - active, and mapped correctly.
+     *
+     * @codeCoverageIgnore
+     *
+     * @return string
+     */
+    protected function getPaymorrowMethodWhereClause()
+    {
+        return " `OXACTIVE` = 1 AND `OXPSPAYMORROWACTIVE` = 1 AND `OXPSPAYMORROWMAP` > 0 ";
     }
 
 
@@ -222,9 +271,9 @@ class OxpsPaymorrowOxPayment extends OxpsPaymorrowOxPayment_parent
      *
      * @return mixed
      */
-    protected function _OxpsPaymorrowOxPayment_isValidPayment_parent( $aDynValue, $sShopId, $oUser, $dBasketPrice,
-                                                                      $sShipSetId )
+    protected function _OxpsPaymorrowOxPayment_isValidPayment_parent($aDynValue, $sShopId, $oUser, $dBasketPrice,
+                                                                     $sShipSetId)
     {
-        return parent::isValidPayment( $aDynValue, $sShopId, $oUser, $dBasketPrice, $sShipSetId );
+        return parent::isValidPayment($aDynValue, $sShopId, $oUser, $dBasketPrice, $sShipSetId);
     }
 }
