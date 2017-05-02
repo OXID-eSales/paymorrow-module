@@ -33,7 +33,7 @@
 $sLangName = "Deutsch";
 
 $aLang = array(
-    "charset"                                      => "ISO-8859-15", // Supports DE chars like: ‰, ¸, ˆ, etc.
+    "charset"                                      => "UTF-8",
     "oxpspaymorrow"                                => "Paymorrow",
 
     'NAVIGATION_PAYMORROW'                         => '<a href="https://paymorrow.de/" target="_blank">Paymorrow Payment</a>',
@@ -60,19 +60,19 @@ $aLang = array(
 
     // RSA Keys fields
     'SHOP_MODULE_paymorrowKeysJson'                => 'Feld aller Daten',
-    'SHOP_MODULE_paymorrowPrivateKey'              => 'Live - aktiver privater Schl¸ssel',
-    'SHOP_MODULE_paymorrowPrivateKeyTest'          => 'Test - aktiver privater Schl¸ssel',
-    'SHOP_MODULE_paymorrowPublicKey'               => 'Live - aktiver ˆffenticher Schl¸ssel',
-    'SHOP_MODULE_paymorrowPublicKeyTest'           => 'Test - aktiver ˆffenticher Schl¸ssel',
-    'SHOP_MODULE_paymorrowPaymorrowKey'            => 'Live - ˆffenticher Schl¸ssel Paymorrow',
-    'SHOP_MODULE_paymorrowPaymorrowKeyTest'        => 'Test - ˆffenticher Schl¸ssel Paymorrow',
+    'SHOP_MODULE_paymorrowPrivateKey'              => 'Live - aktiver privater Schl√ºssel',
+    'SHOP_MODULE_paymorrowPrivateKeyTest'          => 'Test - aktiver privater Schl√ºssel',
+    'SHOP_MODULE_paymorrowPublicKey'               => 'Live - aktiver √∂ffenticher Schl√ºssel',
+    'SHOP_MODULE_paymorrowPublicKeyTest'           => 'Test - aktiver √∂ffenticher Schl√ºssel',
+    'SHOP_MODULE_paymorrowPaymorrowKey'            => 'Live - √∂ffenticher Schl√ºssel Paymorrow',
+    'SHOP_MODULE_paymorrowPaymorrowKeyTest'        => 'Test - √∂ffenticher Schl√ºssel Paymorrow',
 
     // Profile data normalization settings
-    'SHOP_MODULE_paymorrowUpdateAddresses'         => 'Zur¸ckspielen der Anschriften bei Ver‰nderung im Checkout',
-    'SHOP_MODULE_paymorrowUpdatePhones'            => 'Zur¸ckspielen der Telefonnummer bei Ver‰nderung im Checkout',
+    'SHOP_MODULE_paymorrowUpdateAddresses'         => 'Zur√ºckspielen der Anschriften bei Ver√§nderung im Checkout',
+    'SHOP_MODULE_paymorrowUpdatePhones'            => 'Zur√ºckspielen der Telefonnummer bei Ver√§nderung im Checkout',
 
     // Help Idents
     'PM_HELP_ADMIN_PAYMENT_METHODS_ACTIVATE'       => 'Aktivierung bewirkt die Zuordnung dieser Zahlungsart zu Paymorrow.',
-    'PM_HELP_ADMIN_PAYMENT_METHODS_INVOICE'        => 'Aktivierung bewirkt, dass diese Paymorrow zugeordnete Zahlungsart f¸r den Paymorrow-Rechnungskauf freigeschaltet wird.',
-    'PM_HELP_ADMIN_PAYMENT_METHODS_SDD'            => 'Aktivierung bewirkt, dass diese Paymorrow zugeordnete Zahlungsart f¸r das Paymorrow-Lastschriftverfahren freigeschaltet wird.',
+    'PM_HELP_ADMIN_PAYMENT_METHODS_INVOICE'        => 'Aktivierung bewirkt, dass diese Paymorrow zugeordnete Zahlungsart f√ºr den Paymorrow-Rechnungskauf freigeschaltet wird.',
+    'PM_HELP_ADMIN_PAYMENT_METHODS_SDD'            => 'Aktivierung bewirkt, dass diese Paymorrow zugeordnete Zahlungsart f√ºr das Paymorrow-Lastschriftverfahren freigeschaltet wird.',
 );
