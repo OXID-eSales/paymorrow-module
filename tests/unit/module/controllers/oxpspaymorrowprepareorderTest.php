@@ -39,7 +39,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPrepareOrderTest extends OxidTestCase
 {
 
     /**
-     * @var OxpsPaymorrowPrepareOrder
+     * @var OxpsPaymorrowPrepareOrder|PHPUnit_Framework_MockObject_MockObject
      */
     protected $SUT;
 
@@ -54,31 +54,75 @@ class Unit_Module_Controllers_OxpsPaymorrowPrepareOrderTest extends OxidTestCase
         parent::setUp();
 
         // SUT mock
-        $this->SUT = $this->getMock( 'OxpsPaymorrowPrepareOrder', array('__construct', 'init', 'render') );
+        $this->SUT = $this->getMock(
+            'OxpsPaymorrowPrepareOrder',
+            array('__construct', 'init', 'render', 'appendPostData')
+        );
     }
 
 
     public function testPrepareOrder_makePrepareOrderCallAndExitWithJsonResponse()
     {
-        // Paymorrow gateway mock
-        $oGatewayMock = $this->getMock( 'OxpsPaymorrowRequestControllerProxy', array('__call', 'prepareOrder') );
-        $oGatewayMock->expects( $this->once() )->method( 'prepareOrder' )->with( $this->isType( 'array' ) )->will(
-            $this->returnValue( '[JSON]' )
+        $this->setRequestParameter('pm_paymentMethod_name', '');
+
+        /** @var oxPayment|OxpsPaymorrowOxPayment|PHPUnit_Framework_MockObject_MockObject $payment */
+        $payment = $this->getMock('oxPayment', array('__construct', '__call', 'loadByPaymorrowName', 'getId'));
+        $payment->expects($this->once())->method('loadByPaymorrowName')->with('')->will($this->returnValue(false));
+        $payment->expects($this->never())->method('getId');
+        oxTestModules::addModuleObject('oxPayment', $payment);
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGatewayMock */
+        $oGatewayMock = $this->getMock('OxpsPaymorrowRequestControllerProxy', array('__call', 'prepareOrder'));
+        $oGatewayMock->expects($this->once())->method('prepareOrder')->with($this->isType('array'))->will(
+            $this->returnValue('[JSON]')
         );
+        oxTestModules::addModuleObject('OxpsPaymorrowRequestControllerProxy', $oGatewayMock);
 
-        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGatewayMock );
-
-        // Utils mock
-        $oUtilsMock = $this->getMock( 'oxUtils', array('setHeader', 'showMessageAndExit') );
-        $oUtilsMock->expects( $this->once() )->method( 'setHeader' )->with(
-            $this->equalTo( 'Content-Type: application/json' )
+        /** @var oxUtils|PHPUnit_Framework_MockObject_MockObject $oUtilsMock */
+        $oUtilsMock = $this->getMock('oxUtils', array('setHeader', 'showMessageAndExit'));
+        $oUtilsMock->expects($this->once())->method('setHeader')->with(
+            $this->equalTo('Content-Type: application/json')
         );
-        $oUtilsMock->expects( $this->once() )->method( 'showMessageAndExit' )->with(
-            $this->equalTo( '[JSON]' )
+        $oUtilsMock->expects($this->once())->method('showMessageAndExit')->with(
+            $this->equalTo('[JSON]')
         );
+        oxRegistry::set('oxUtils', $oUtilsMock);
 
-        oxRegistry::set( 'oxUtils', $oUtilsMock );
+        $this->SUT->expects($this->never())->method('appendPostData');
+        $this->SUT->prepareOrder();
+    }
 
+    public function testPrepareOrder_paymentLoadedByName_setPaymentIdToPostData()
+    {
+        $this->setRequestParameter('pm_paymentMethod_name', 'INVOICE');
+        $this->setRequestParameter('paymentid', '');
+
+        /** @var oxPayment|OxpsPaymorrowOxPayment|PHPUnit_Framework_MockObject_MockObject $payment */
+        $payment = $this->getMock('oxPayment', array('__construct', '__call', 'loadByPaymorrowName', 'getId'));
+        $payment->expects($this->once())->method('loadByPaymorrowName')
+            ->with('INVOICE')
+            ->will($this->returnValue(true));
+        $payment->expects($this->once())->method('getId')->will($this->returnValue('oxinvoiceid'));
+        oxTestModules::addModuleObject('oxPayment', $payment);
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGatewayMock */
+        $oGatewayMock = $this->getMock('OxpsPaymorrowRequestControllerProxy', array('__call', 'prepareOrder'));
+        $oGatewayMock->expects($this->once())->method('prepareOrder')->with($this->isType('array'))->will(
+            $this->returnValue('[JSON]')
+        );
+        oxTestModules::addModuleObject('OxpsPaymorrowRequestControllerProxy', $oGatewayMock);
+
+        /** @var oxUtils|PHPUnit_Framework_MockObject_MockObject $oUtilsMock */
+        $oUtilsMock = $this->getMock('oxUtils', array('setHeader', 'showMessageAndExit'));
+        $oUtilsMock->expects($this->once())->method('setHeader')->with(
+            $this->equalTo('Content-Type: application/json')
+        );
+        $oUtilsMock->expects($this->once())->method('showMessageAndExit')->with(
+            $this->equalTo('[JSON]')
+        );
+        oxRegistry::set('oxUtils', $oUtilsMock);
+
+        $this->SUT->expects($this->once())->method('appendPostData')->with(array('paymentid' => 'oxinvoiceid'));
         $this->SUT->prepareOrder();
     }
 }

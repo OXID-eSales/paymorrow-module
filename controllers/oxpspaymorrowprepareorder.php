@@ -75,10 +75,10 @@ class OxpsPaymorrowPrepareOrder extends oxUBase
         $paymentIdField = self::OXPS_PAYMENT_ID_FIELD;
         $paymentName = (string) $this->getConfig()->getRequestParameter(self::OXPS_PM_PAYMENT_NAME_FIELD);
 
-        if ($payment->loadByPaymorrowName($paymentName)) {
-            if (!$this->getConfig()->getRequestParameter($paymentIdField)) {
-                $this->appendPostData(array($paymentIdField => (string) $payment->getId()));
-            }
+        if ($payment->loadByPaymorrowName($paymentName) and
+            !$this->getConfig()->getRequestParameter($paymentIdField)
+        ) {
+            $this->appendPostData(array($paymentIdField => (string) $payment->getId()));
         }
     }
 
