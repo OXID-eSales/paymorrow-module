@@ -30,13 +30,15 @@
  * the OXID module for Paymorrow payment. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'library/oxTestCase.php';
+if (!defined('PAYMORROW_CONFIG')) {
+    include(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'paymorrow_config.php');
+}
 
 /**
  * Class Acceptance_02administrationOfPaymorrowTest.
  * Test Paymorrow module administration and back end behaviour.
  */
-class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
+class Acceptance_02administrationOfPaymorrowTest extends OxidEsales\TestingLibrary\AcceptanceTestCase
 {
 
     /**
@@ -67,22 +69,22 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
     {
         parent::setUp();
 
-        if ( !PAYMORROW_CONFIG ) {
-            exit( 'Paymorrow tests are not configured. Please set it up in "paymorrow_config.php" file.' . PHP_EOL );
+        if (!PAYMORROW_CONFIG) {
+            exit('Paymorrow tests are not configured. Please set it up in "paymorrow_config.php" file.' . PHP_EOL);
         }
 
         // Start Mink session wuth Selenium driver
-        $this->startMinkSession( 'selenium' );
+        $this->startMinkSession('selenium');
 
         // Get page
         $this->_oMinkSession = $this->getMinkSession();
-        $this->_oPage        = $this->_oMinkSession->getPage();
+        $this->_oPage = $this->_oMinkSession->getPage();
     }
 
 
     public function testPaymorrowModuleIsInModulesList()
     {
-        $this->loginAdmin( 'Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN );
+        $this->loginAdmin('Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN);
 
         $this->assertElementPresent(
             '//div[@id="liste"]//a[text()="Paymorrow Payments"]',
@@ -92,58 +94,58 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
 
     public function testPaymorrowModuleActivation()
     {
-        $this->loginAdmin( 'Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN );
+        $this->loginAdmin('Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN);
 
         // Select Paymorrow module and open overview tab
-        $this->openListItem( 'Paymorrow Payments' );
-        $this->openTab( 'Overview' );
+        $this->openListItem('Paymorrow Payments');
+        $this->openTab('Overview');
 
         // First deactivate module for the activation test if it is active already
-        if ( $this->isElementPresent( '//input[@id="module_deactivate"]' ) ) {
-            $this->clickAndWaitFrame( '//input[@id="module_deactivate"]', 'list' );
+        if ($this->isElementPresent('//input[@id="module_deactivate"]')) {
+            $this->clickAndWaitFrame('//input[@id="module_deactivate"]', 'list');
             $this->waitForFrameToLoad('edit', 5000000, true);
         }
 
         // Check and click "Activate" button
-        $this->clickAndWait( '//input[@id="module_activate"]' );
+        $this->clickAndWait('//input[@id="module_activate"]');
         $this->waitForFrameToLoad('edit', 5000000, true);
         // Check if the module was activated properly
-        $this->assertElementPresent( '//input[@id="module_deactivate"]', 'Now button "Deactivate" should appear.' );
+        $this->assertElementPresent('//input[@id="module_deactivate"]', 'Now button "Deactivate" should appear.');
 
-        $this->loginAdmin( 'Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN );
-        $this->openListItem( 'Paymorrow Payments' );
-        $this->frame( 'list' );
-        $this->assertElementPresent( '//div[@class="tabs"]//a[text()="Log"]', 'Paymorrow "Log" tab should appear.' );
+        $this->loginAdmin('Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN);
+        $this->openListItem('Paymorrow Payments');
+        $this->frame('list');
+        $this->assertElementPresent('//div[@class="tabs"]//a[text()="Log"]', 'Paymorrow "Log" tab should appear.');
 
-        $this->openTab( 'Settings' );
-        $this->assertElementPresent( '//b[text()="API Configuration"]', 'Setting should contain API Configuration' );
-        $this->assertElementPresent( '//b[text()="Order Data Update"]', 'Setting should contain Order Data Update' );
+        $this->openTab('Settings');
+        $this->assertElementPresent('//b[text()="API Configuration"]', 'Setting should contain API Configuration');
+        $this->assertElementPresent('//b[text()="Order Data Update"]', 'Setting should contain Order Data Update');
     }
 
     public function testPaymorrowModuleDeactivation()
     {
-        $this->loginAdmin( 'Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN );
+        $this->loginAdmin('Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN);
 
         // Select Paymorrow module and open overview tab
         $this->assertElementPresent(
             '//div[@id="liste"]//a[text()="Paymorrow Payments"]',
             'Paymorrow module should be in the list.'
         );
-        $this->clickAndWait( '//div[@id="liste"]//a[text()="Paymorrow Payments"]' );
-        $this->openTab( 'Overview' );
+        $this->clickAndWait('//div[@id="liste"]//a[text()="Paymorrow Payments"]');
+        $this->openTab('Overview');
 
         // Check and click "Deactivate" button
         $this->assertElementPresent(
             '//input[@id="module_deactivate"]',
             'Paymorrow module "Deactivate" button should be available.'
         );
-        $this->clickAndWaitFrame( '//input[@id="module_deactivate"]', 'list' );
+        $this->clickAndWaitFrame('//input[@id="module_deactivate"]', 'list');
 
         // Check if the module was deactivated properly
         $this->waitForElement('//input[@id="module_activate"]', 10, true);
-        $this->assertElementPresent( '//input[@id="module_activate"]', 'Now button "Activate" should appear.' );
+        $this->assertElementPresent('//input[@id="module_activate"]', 'Now button "Activate" should appear.');
 
-        $this->frame( 'list' );
+        $this->frame('list');
         $this->assertElementNotPresent(
             '//div[@class="tabs"]//a[text()="Log"]',
             'Paymorrow "Log" tab should be gone.'
@@ -155,7 +157,7 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->_openPaymorrowSettings();
 
         // Open API settings
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         $this->assertElementPresent(
             '//input[@name="confbools[paymorrowSandboxMode]"]',
@@ -227,7 +229,7 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         );
 
         // Open Order Data Update settings
-        $this->click( '//b[text()="Order Data Update"]' );
+        $this->click('//b[text()="Order Data Update"]');
 
         $this->assertElementPresent(
             '//input[@name="confbools[paymorrowUpdateAddresses]"]',
@@ -244,14 +246,14 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->_openPaymorrowSettings();
 
         // Open API settings
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         // Make sure no merchant ID is configured
-        $this->type( '//input[@name="confstrs[paymorrowMerchantIdTest]"]', '' );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->type('//input[@name="confstrs[paymorrowMerchantIdTest]"]', '');
+        $this->clickAndWait('//input[@name="save"]');
 
         // Open API settings again
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         $this->assertElementVisible(
             '//input[@name="confstrs[paymorrowKeysJson]"]',
@@ -297,14 +299,14 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->_openPaymorrowSettings();
 
         // Open API settings
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         // Make sure merchant ID is configured
-        $this->type( '//input[@name="confstrs[paymorrowMerchantIdTest]"]', PAYMORROW_SETTING_MERCHANT_ID );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->type('//input[@name="confstrs[paymorrowMerchantIdTest]"]', PAYMORROW_SETTING_MERCHANT_ID);
+        $this->clickAndWait('//input[@name="save"]');
 
         // Open API settings again
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         $this->assertElementNotVisible(
             '//input[@name="confstrs[paymorrowKeysJson]"]',
@@ -350,14 +352,14 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->_openPaymorrowSettings();
 
         // Open API settings
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         // Enter a merchant ID
-        $this->type( '//input[@name="confstrs[paymorrowMerchantIdTest]"]', PAYMORROW_SETTING_MERCHANT_ID );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->type('//input[@name="confstrs[paymorrowMerchantIdTest]"]', PAYMORROW_SETTING_MERCHANT_ID);
+        $this->clickAndWait('//input[@name="save"]');
 
         // Open API settings again
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         $this->assertElementVisible(
             '//button[@id="register_certificate_btn_live"]',
@@ -369,7 +371,7 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         );
 
         // Press certificate generation button
-        $this->clickAndWait( '//button[@id="register_certificate_btn_test"]' );
+        $this->click('//button[@id="register_certificate_btn_test"]');
 
         // Make sure pop-up is now visible and certificates are being generated
         $this->assertElementVisible(
@@ -390,7 +392,7 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         );
 
         // Wait several minutes and check if form is ready to confirm generated certificates
-        sleep( PAYMORROW_PARAM_DELAY * 8 );
+        sleep(PAYMORROW_PARAM_DELAY * 8);
 
         $this->assertElementNotPresent(
             'div[@class="progress-desc"]',
@@ -413,17 +415,17 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
 
     public function testPaymentMethodsInvoiceMappedAndConfigured()
     {
-        $this->_activateAndSetupPaymorrowModuleAndOpenPaymentForm( true );
+        $this->_activateAndSetupPaymorrowModuleAndOpenPaymentForm(true);
 
         // First unset all values to default if any were configured
-        if ( $this->_oPage->find( 'xpath', '//input[@name="editval[oxpayments__oxpspaymorrowactive]" and @checked]' )
+        if ($this->_oPage->find('xpath', '//input[@name="editval[oxpayments__oxpspaymorrowactive]" and @checked]')
         ) {
-            $this->type( '//input[@name="editval[oxpayments__oxsort]"]', '0' );
-            $this->type( '//input[@name="editval[oxpayments__oxtoamount]"]', '1000000' );
-            $this->type( '//input[@name="editval[oxpayments__oxfromamount]"]', '0' );
-            $this->type( '//input[@name="editval[oxpayments__oxaddsum]"]', '0' );
-            $this->click( '//input[@name="editval[oxpayments__oxpspaymorrowactive]"]' );
-            $this->clickAndWait( '//input[@name="save"]' );
+            $this->type('//input[@name="editval[oxpayments__oxsort]"]', '0');
+            $this->type('//input[@name="editval[oxpayments__oxtoamount]"]', '1000000');
+            $this->type('//input[@name="editval[oxpayments__oxfromamount]"]', '0');
+            $this->type('//input[@name="editval[oxpayments__oxaddsum]"]', '0');
+            $this->click('//input[@name="editval[oxpayments__oxpspaymorrowactive]"]');
+            $this->clickAndWait('//input[@name="save"]');
         }
 
         // Make sure payment method is not activated and form is disabled
@@ -441,17 +443,17 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         );
 
         // Now activate the method
-        $this->click( '//input[@name="editval[oxpayments__oxpspaymorrowactive]"]' );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->click('//input[@name="editval[oxpayments__oxpspaymorrowactive]"]');
+        $this->clickAndWait('//input[@name="save"]');
 
         // Map it as Invoice payment method, fill some form values and save the form
-        $this->click( '//input[@name="editval[oxpayments__oxpspaymorrowmap]" and @value="1"]' );
-        $this->type( '//input[@name="editval[oxpayments__oxsort]"]', '11' );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->click('//input[@name="editval[oxpayments__oxpspaymorrowmap]" and @value="1"]');
+        $this->type('//input[@name="editval[oxpayments__oxsort]"]', '11');
+        $this->clickAndWait('//input[@name="save"]');
 
         // Finally go to Main tab and check the form
-        $this->openTab( 'Main' );
-        sleep( PAYMORROW_PARAM_DELAY );
+        $this->openTab('Main');
+        sleep(PAYMORROW_PARAM_DELAY);
         $this->assertElementPresent(
             '//input[@name="editval[oxpayments__oxsort]" and @value="11"]',
             'Sort form should have same value as was set in Paymorrow tab.'
@@ -460,17 +462,17 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
 
     public function testPaymentMethodsDirectDebitMappedAndConfigured()
     {
-        $this->_activateAndSetupPaymorrowModuleAndOpenPaymentForm( false );
+        $this->_activateAndSetupPaymorrowModuleAndOpenPaymentForm(false);
 
         // First unset all values to default if any were configured
-        if ( $this->_oPage->find( 'xpath', '//input[@name="editval[oxpayments__oxpspaymorrowactive]" and @checked]' )
+        if ($this->_oPage->find('xpath', '//input[@name="editval[oxpayments__oxpspaymorrowactive]" and @checked]')
         ) {
-            $this->type( '//input[@name="editval[oxpayments__oxsort]"]', '0' );
-            $this->type( '//input[@name="editval[oxpayments__oxtoamount]"]', '1000000' );
-            $this->type( '//input[@name="editval[oxpayments__oxfromamount]"]', '0' );
-            $this->type( '//input[@name="editval[oxpayments__oxaddsum]"]', '0' );
-            $this->click( '//input[@name="editval[oxpayments__oxpspaymorrowactive]"]' );
-            $this->clickAndWait( '//input[@name="save"]' );
+            $this->type('//input[@name="editval[oxpayments__oxsort]"]', '0');
+            $this->type('//input[@name="editval[oxpayments__oxtoamount]"]', '1000000');
+            $this->type('//input[@name="editval[oxpayments__oxfromamount]"]', '0');
+            $this->type('//input[@name="editval[oxpayments__oxaddsum]"]', '0');
+            $this->click('//input[@name="editval[oxpayments__oxpspaymorrowactive]"]');
+            $this->clickAndWait('//input[@name="save"]');
         }
 
         // Make sure payment method is not activated and form is disabled
@@ -488,18 +490,18 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         );
 
         // Now activate the method
-        $this->click( '//input[@name="editval[oxpayments__oxpspaymorrowactive]"]' );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->click('//input[@name="editval[oxpayments__oxpspaymorrowactive]"]');
+        $this->clickAndWait('//input[@name="save"]');
 
         // Map it as Direct Debit payment method, fill some form values and save the form
-        $this->click( '//input[@name="editval[oxpayments__oxpspaymorrowmap]" and @value="1"]' );
-        $this->type( '//input[@name="editval[oxpayments__oxsort]"]', '22' );
-        $this->type( '//input[@name="editval[oxpayments__oxaddsum]"]', '1.22' );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->click('//input[@name="editval[oxpayments__oxpspaymorrowmap]" and @value="1"]');
+        $this->type('//input[@name="editval[oxpayments__oxsort]"]', '22');
+        $this->type('//input[@name="editval[oxpayments__oxaddsum]"]', '1.22');
+        $this->clickAndWait('//input[@name="save"]');
 
         // Finally go to Main tab and check the form
-        $this->openTab( 'Main' );
-        sleep( PAYMORROW_PARAM_DELAY );
+        $this->openTab('Main');
+        sleep(PAYMORROW_PARAM_DELAY);
         $this->assertElementPresent(
             '//input[@name="editval[oxpayments__oxsort]" and @value="22"]',
             'Sort form should have same sort value as was set in Paymorrow tab.'
@@ -520,25 +522,25 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
      */
     protected function _openPaymorrowSettings()
     {
-        $this->loginAdmin( 'Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN );
+        $this->loginAdmin('Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN);
 
         // Select Paymorrow module and open overview tab
         $this->assertElementPresent(
             '//div[@id="liste"]//a[text()="Paymorrow Payments"]',
             'Paymorrow module should be in the list.'
         );
-        $this->clickAndWait( '//div[@id="liste"]//a[text()="Paymorrow Payments"]' );
-        $this->openTab( 'Overview' );
+        $this->clickAndWait('//div[@id="liste"]//a[text()="Paymorrow Payments"]');
+        $this->openTab('Overview');
 
         // Activate module if it is not yet active
-        if ( $this->_oPage->find( 'xpath', '//input[@id="module_activate"]' ) ) {
+        if ($this->_oPage->find('xpath', '//input[@id="module_activate"]')) {
 
-            $this->clickAndWait( '//input[@id="module_activate"]' );
+            $this->clickAndWait('//input[@id="module_activate"]');
 
             // Check if the module was activated properly
-            $this->assertElementPresent( '//input[@id="module_deactivate"]', 'Now button "Deactivate" should appear.' );
+            $this->assertElementPresent('//input[@id="module_deactivate"]', 'Now button "Deactivate" should appear.');
 
-            $this->frame( 'list' );
+            $this->frame('list');
 
             $this->waitForElement('//div[@class="tabs"]//a[text()="Log"]', 10, true);
             $this->assertElementPresent(
@@ -548,10 +550,10 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         }
 
         // Open settings
-        $this->openTab( 'Settings' );
-        sleep( PAYMORROW_PARAM_DELAY );
-        $this->assertElementPresent( '//b[text()="API Configuration"]', 'Setting should contain API Configuration' );
-        $this->assertElementPresent( '//b[text()="Order Data Update"]', 'Setting should contain Order Data Update' );
+        $this->openTab('Settings');
+        sleep(PAYMORROW_PARAM_DELAY);
+        $this->assertElementPresent('//b[text()="API Configuration"]', 'Setting should contain API Configuration');
+        $this->assertElementPresent('//b[text()="Order Data Update"]', 'Setting should contain Order Data Update');
     }
 
     /**
@@ -562,17 +564,17 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->_openPaymorrowSettings();
 
         // Open API settings
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         // Remove merchant ID if its is set to make sure certificate fields are visible
-        $this->type( '//input[@name="confstrs[paymorrowMerchantIdTest]"]', '' );
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->type('//input[@name="confstrs[paymorrowMerchantIdTest]"]', '');
+        $this->clickAndWait('//input[@name="save"]');
 
         // Open API settings again
-        $this->click( '//b[text()="API Configuration"]' );
+        $this->click('//b[text()="API Configuration"]');
 
         // Enter a merchant ID and certificates
-        $this->type( '//input[@name="confstrs[paymorrowMerchantIdTest]"]', PAYMORROW_SETTING_MERCHANT_ID );
+        $this->type('//input[@name="confstrs[paymorrowMerchantIdTest]"]', PAYMORROW_SETTING_MERCHANT_ID);
 
         // Values too long probably - cause "Unable to connect !" error...
         /*$this->type( '//input[@name="confstrs[paymorrowKeysJson]"]', PAYMORROW_SETTING_ALL_KEYS );
@@ -580,24 +582,24 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->type( '//input[@name="confstrs[paymorrowPublicKeyTest]"]', PAYMORROW_SETTING_PUBLIC_KEY );
         $this->type( '//input[@name="confstrs[paymorrowPaymorrowKeyTest]"]', PAYMORROW_SETTING_PM_PUBLIC_KEY );*/
         $oConfig = oxRegistry::getConfig();
-        $oConfig->setConfigParam( 'paymorrowKeysJson', PAYMORROW_SETTING_ALL_KEYS );
+        $oConfig->setConfigParam('paymorrowKeysJson', PAYMORROW_SETTING_ALL_KEYS);
         $oConfig->saveShopConfVar(
             'str', 'paymorrowKeysJson', PAYMORROW_SETTING_ALL_KEYS, null, 'module:oxpspaymorrow'
         );
-        $oConfig->setConfigParam( 'paymorrowPrivateKeyTest', PAYMORROW_SETTING_PRIVATE_KEY );
+        $oConfig->setConfigParam('paymorrowPrivateKeyTest', PAYMORROW_SETTING_PRIVATE_KEY);
         $oConfig->saveShopConfVar(
             'str', 'paymorrowPrivateKeyTest', PAYMORROW_SETTING_PRIVATE_KEY, null, 'module:oxpspaymorrow'
         );
-        $oConfig->setConfigParam( 'paymorrowPublicKeyTest', PAYMORROW_SETTING_PUBLIC_KEY );
+        $oConfig->setConfigParam('paymorrowPublicKeyTest', PAYMORROW_SETTING_PUBLIC_KEY);
         $oConfig->saveShopConfVar(
             'str', 'paymorrowPublicKeyTest', PAYMORROW_SETTING_PUBLIC_KEY, null, 'module:oxpspaymorrow'
         );
-        $oConfig->setConfigParam( 'paymorrowPaymorrowKeyTest', PAYMORROW_SETTING_PM_PUBLIC_KEY );
+        $oConfig->setConfigParam('paymorrowPaymorrowKeyTest', PAYMORROW_SETTING_PM_PUBLIC_KEY);
         $oConfig->saveShopConfVar(
             'str', 'paymorrowPaymorrowKeyTest', PAYMORROW_SETTING_PM_PUBLIC_KEY, null, 'module:oxpspaymorrow'
         );
 
-        $this->clickAndWait( '//input[@name="save"]' );
+        $this->clickAndWait('//input[@name="save"]');
     }
 
     /**
@@ -606,9 +608,9 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
      *
      * @param bool $blUseInvoice Select Invoice method if true, Direct Debit otherwise
      */
-    protected function _activateAndSetupPaymorrowModuleAndOpenPaymentForm( $blUseInvoice = true )
+    protected function _activateAndSetupPaymorrowModuleAndOpenPaymentForm($blUseInvoice = true)
     {
-        if ( !empty( $blUseInvoice ) ) {
+        if (!empty($blUseInvoice)) {
             $sMethodDeName = 'Rechnung';
             $sMethodEnName = 'Invoice';
         } else {
@@ -619,7 +621,7 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
         $this->_activateAndSetupPaymorrowModule();
 
         // Go to payment methods settings and check for Paymorrow tab and fields
-        $this->selectMenu( 'Shop Settings', 'Payment Methods' );
+        $this->selectMenu('Shop Settings', 'Payment Methods');
 
         // Select a payment method
         $this->assertElementPresent(
@@ -643,10 +645,10 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
             '//td[contains(@class, "tab")]//a[text()="Paymorrow"]',
             'There should be a Paymorrow tab.'
         );
-        $this->clickAndWait( '//td[contains(@class, "tab")]//a[text()="Paymorrow"]' );
-        $this->frame( 'edit' );
-        sleep( PAYMORROW_PARAM_DELAY );
-        $this->openTab( 'Paymorrow' );
+        $this->clickAndWait('//td[contains(@class, "tab")]//a[text()="Paymorrow"]');
+        $this->frame('edit');
+        sleep(PAYMORROW_PARAM_DELAY);
+        $this->openTab('Paymorrow');
 
         // Check if all relevant fields exist
         $this->assertElementPresent(
@@ -698,16 +700,16 @@ class Acceptance_02administrationOfPaymorrowTest extends oxTestCase
      * @param string $sLocator
      * @param string $sSelector (optional) Default is "xpath", also available "css"
      */
-    protected function _elementDump( $sLocator, $sSelector = 'xpath' )
+    protected function _elementDump($sLocator, $sSelector = 'xpath')
     {
-        $oElement = $this->_oPage->find( $sSelector, $sLocator );
+        $oElement = $this->_oPage->find($sSelector, $sLocator);
 
-        if ( is_null( $oElement ) ) {
+        if (is_null($oElement)) {
             $sContent = '!_NOT_FOUND_!';
         } else {
             $sContent = $oElement->getText();
         }
 
-        printf( PHP_EOL . 'LOCATOR "%s": "%s"' . PHP_EOL, $sLocator, $sContent );
+        printf(PHP_EOL . 'LOCATOR "%s": "%s"' . PHP_EOL, $sLocator, $sContent);
     }
 }

@@ -36,45 +36,48 @@
 
 // NOTE: Make sure, this file is renamed from "paymorrow_config.sample.php" to "paymorrow_config.php".
 //       Set PAYMORROW_CONFIG value true once all rest values are configured!
-define( 'PAYMORROW_CONFIG', false );
+define('PAYMORROW_CONFIG', false);
 
 // Paymorrow service delay in second to wait for response and payment page redirect
-define( 'PAYMORROW_PARAM_DELAY', 30 );
+define('PAYMORROW_PARAM_DELAY', 30);
 
 // Paymorrow merchant configuration values to test mode
 // NOTE: These values are mandatory to set up. Merchant ID and keys should be provided and confirmed by Paymorrow!
-define( 'PAYMORROW_SETTING_MERCHANT_ID', '' );
-define( 'PAYMORROW_SETTING_ALL_KEYS', '' );
-define( 'PAYMORROW_SETTING_PRIVATE_KEY', '' );
-define( 'PAYMORROW_SETTING_PUBLIC_KEY', '' );
-define( 'PAYMORROW_SETTING_PM_PUBLIC_KEY', '' );
+define('PAYMORROW_SETTING_MERCHANT_ID', '');
+define('PAYMORROW_SETTING_ALL_KEYS', '');
+define('PAYMORROW_SETTING_PRIVATE_KEY', '');
+define('PAYMORROW_SETTING_PUBLIC_KEY', '');
+define('PAYMORROW_SETTING_PM_PUBLIC_KEY', '');
 
 // Valid test values for Paymorrow input fields
-define( 'PAYMORROW_TEST_VAL_PHONE', '+49654546654' );
-define( 'PAYMORROW_TEST_VAL_IBAN', 'DE55200800000770876200' );
-define( 'PAYMORROW_TEST_VAL_BIC', 'DRESDEFF200' );
+define('PAYMORROW_TEST_VAL_DOB_DAY', '15');
+define('PAYMORROW_TEST_VAL_DOB_MONTH', '06');
+define('PAYMORROW_TEST_VAL_DOB_YEAR', '1990');
+define('PAYMORROW_TEST_VAL_PHONE', '+49654546654');
+define('PAYMORROW_TEST_VAL_IBAN', 'DE55200800000770876200');
+define('PAYMORROW_TEST_VAL_BIC', 'DRESDEFF200');
 
 // Test users (come from accpetance/demodata_paymorrow.sql file)
-define( 'PAYMORROW_USER_ADMIN', 'admin@example.com' );
-define( 'PAYMORROW_USER_VALID', 'valid.user@oxid-esales.com' );
-define( 'PAYMORROW_USER_INCOMPLETE', 'incomplete.user@oxid-esales.com' );
-define( 'PAYMORROW_USER_MULTIADDRESS', 'multiaddress.user@oxid-esales.com' );
+define('PAYMORROW_USER_ADMIN', 'admin@example.com');
+define('PAYMORROW_USER_VALID', 'valid.user@oxid-esales.com');
+define('PAYMORROW_USER_INCOMPLETE', 'incomplete.user@oxid-esales.com');
+define('PAYMORROW_USER_MULTIADDRESS', 'multiaddress.user@oxid-esales.com');
 
 // Test vouches (come from accpetance/demodata_paymorrow.sql file)
-define( 'PAYMORROW_VOUCHER_PERCENT', '10%' );
-define( 'PAYMORROW_VOUCHER_ABSOLUTE', '10EUR' );
+define('PAYMORROW_VOUCHER_PERCENT', '10%');
+define('PAYMORROW_VOUCHER_ABSOLUTE', '10EUR');
 
 // eShop and Paymorrow HTML tags IDs used in locators for Paymorrow tests
 // NOTE: These value are dependant on eShop theme templates and Paymorrow module, be careful if changing any!
-define( 'PAYMORROW_TAG_ID_RADIO_INVOCE', 'rb_payment_invoice' );
-define( 'PAYMORROW_TAG_ID_RADIO_DIRECT_DEBIT', 'rb_payment_sdd' );
-define( 'PAYMORROW_TAG_ID_DIV_INVOCE', 'pminvoice' );
-define( 'PAYMORROW_TAG_ID_DIV_DIRECT_DEBIT', 'pmsdd' );
-define( 'PAYMORROW_TAG_ID_CHECKBOX_INVOCE', 'pm_accept_tac_inv' );
-define( 'PAYMORROW_TAG_ID_CHECKBOX_DIRECT_DEBIT', 'pm_accept_tac_sdd' );
-define( 'PAYMORROW_TAG_ID_IBAN', 'pm_bankaccount' );
-define( 'PAYMORROW_TAG_ID_BIC', 'pm_blz' );
-define( 'PAYMORROW_TAG_NAME_DOB_DAY', 'pm_customer_dateOfBirth_day' );
-define( 'PAYMORROW_TAG_NAME_DOB_MONTH', 'pm_customer_dateOfBirth_month' );
-define( 'PAYMORROW_TAG_NAME_DOB_YEAR', 'pm_customer_dateOfBirth_year' );
-define( 'PAYMORROW_TAG_NAME_PHONE', 'pm_customer_phoneNumber' );
+define('PAYMORROW_TAG_ID_RADIO_INVOCE', 'rb_payment_invoice');
+define('PAYMORROW_TAG_ID_RADIO_DIRECT_DEBIT', 'rb_payment_sdd');
+define('PAYMORROW_TAG_ID_DIV_INVOCE', 'pminvoice');
+define('PAYMORROW_TAG_ID_DIV_DIRECT_DEBIT', 'pmsdd');
+define('PAYMORROW_TAG_ID_CHECKBOX_INVOCE', 'pm_accept_tac_inv');
+define('PAYMORROW_TAG_ID_CHECKBOX_DIRECT_DEBIT', 'pm_accept_tac_sdd');
+define('PAYMORROW_TAG_ID_IBAN', 'pm_bankaccount');
+define('PAYMORROW_TAG_ID_BIC', 'pm_blz');
+define('PAYMORROW_TAG_NAME_DOB_DAY', 'pm_customer_dateOfBirth_day');
+define('PAYMORROW_TAG_NAME_DOB_MONTH', 'pm_customer_dateOfBirth_month');
+define('PAYMORROW_TAG_NAME_DOB_YEAR', 'pm_customer_dateOfBirth_year');
+define('PAYMORROW_TAG_NAME_PHONE', 'pm_customer_phoneNumber');

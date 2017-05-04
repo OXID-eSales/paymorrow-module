@@ -1,9 +1,6 @@
 # IDE stuff
 .idea/
 
-# Configuration
-paymorrow_config.php
-
 # Tests reports
 certification/
 coverage/
