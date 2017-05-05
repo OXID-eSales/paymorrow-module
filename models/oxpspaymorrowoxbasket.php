@@ -199,7 +199,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
         $aCosts = (array) $this->getCosts();
 
         foreach ( $aCosts as $sCost => $oPrice ) {
-            $aItemData = (array) $this->_validateCostPriceAndGetItsData( $oPrice, $iLineItem, $sCost );
+            $aItemData = (array) $this->_validateCostPriceAndGetItsData( $oPrice, $iLineItem, $sCost ); // TODO DDR
 
             if ( !empty( $aItemData ) ) {
                 $aCostItems = array_merge( $aCostItems, $aItemData );
@@ -247,6 +247,8 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
             return array();
         }
 
+        $this->filterCostPrice($oPrice, $sCostName);
+
         return array(
             $sPmPrefix . 'quantity'       => 1,
             $sPmPrefix . 'articleId'      => $sId,
@@ -257,6 +259,26 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
             $sPmPrefix . 'vatAmount'      => (double) $oPrice->getVatValue(),
             $sPmPrefix . 'vatRate'        => (double) $oPrice->getVat(),
         );
+    }
+
+    /**
+     * A fix to cover eShop core bug #0006571
+     * Perform VAT percent rounding for Wrapping Cost.
+     *
+     * @todo: Then the eShop core bug is fixed, remove this method and it's usage.
+     *
+     * @param oxPrice|\OxidEsales\EshopCommunity\Core\Price $price
+     * @param string                                        $costName
+     *
+     * @codeCoverageIgnore
+     */
+    protected function filterCostPrice($price, $costName)
+    {
+        if (('oxwrapping' === $costName) and is_object($price) and method_exists($price, 'getVat')) {
+            $vatPercent = (double) $price->getVat();
+            $vatPercent = round($vatPercent * 10) / 10;
+            $price->setVat($vatPercent);
+        }
     }
 
     /**
