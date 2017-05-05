@@ -1,0 +1,84 @@
+<?php
+/**
+ * This file is part of the OXID module for Paymorrow payment.
+ *
+ * The OXID module for Paymorrow payment is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or (at your
+ * option) any later version.
+ *
+ * The OXID eShop module for Paymorrow payment is distributed in the hope that it
+ * will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ *
+ * Linking this library statically or dynamically with other modules is making a
+ * combined work based on this library. Thus, the terms and conditions of the GNU
+ * General Public License cover the whole combination.
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce an
+ * executable, regardless of the license terms of these independent modules, and
+ * to copy and distribute the resulting executable under terms of your choice,
+ * provided that you also meet, for each linked independent module, the terms and
+ * conditions of the license of that module. An independent module is a module
+ * which is not derived from or based on this library. If you modify this library,
+ * you may extend this exception to your version of the library, but you are not
+ * obliged to do so. If you do not wish to do so, delete this exception statement
+ * from your version.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * the OXID module for Paymorrow payment. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Additional configuration parameters for Paymorrow acceptance tests
+ */
+
+// NOTE: Make sure, this file is renamed from "paymorrow_config.php.dist" to "paymorrow_config.php".
+//       Configure all values, which contain places holders "<Paymorrow ...>"
+
+define('PAYMORROW_CONFIG', true);
+
+// Paymorrow service delay in second to wait for response and payment page redirect
+define('PAYMORROW_PARAM_DELAY', 30);
+
+// Paymorrow merchant configuration values to test mode
+// NOTE: These values are mandatory to set up. Merchant ID and keys should be provided and confirmed by Paymorrow!
+define('PAYMORROW_SETTING_MERCHANT_ID', '<Paymorrow MerchantId>');
+define('PAYMORROW_SETTING_ALL_KEYS', '<Paymorrow ApiAllKeys>');
+define('PAYMORROW_SETTING_PRIVATE_KEY', '<Paymorrow MerchantTestPrivateKey>');
+define('PAYMORROW_SETTING_PUBLIC_KEY', '<Paymorrow MerchantTestPublicKey>');
+define('PAYMORROW_SETTING_PM_PUBLIC_KEY', '<Paymorrow PaymorrowTestPublicKey>');
+
+// Valid test values for Paymorrow input fields
+define('PAYMORROW_TEST_VAL_DOB_DAY', '15');
+define('PAYMORROW_TEST_VAL_DOB_MONTH', '06');
+define('PAYMORROW_TEST_VAL_DOB_YEAR', '1990');
+define('PAYMORROW_TEST_VAL_PHONE', '+49654546654');
+define('PAYMORROW_TEST_VAL_IBAN', 'DE55200800000770876200');
+define('PAYMORROW_TEST_VAL_BIC', 'DRESDEFF200');
+
+// Test users (come from accpetance/demodata_paymorrow.sql file)
+define('PAYMORROW_USER_ADMIN', 'admin@example.com');
+define('PAYMORROW_USER_VALID', 'valid.user@oxid-esales.com');
+define('PAYMORROW_USER_INCOMPLETE', 'incomplete.user@oxid-esales.com');
+define('PAYMORROW_USER_MULTIADDRESS', 'multiaddress.user@oxid-esales.com');
+
+// Test vouches (come from accpetance/demodata_paymorrow.sql file)
+define('PAYMORROW_VOUCHER_PERCENT', '10%');
+define('PAYMORROW_VOUCHER_ABSOLUTE', '10EUR');
+
+// eShop and Paymorrow HTML tags IDs used in locators for Paymorrow tests
+// NOTE: These value are dependant on eShop theme templates and Paymorrow module, be careful if changing any!
+define('PAYMORROW_TAG_ID_RADIO_INVOCE', 'rb_payment_invoice');
+define('PAYMORROW_TAG_ID_RADIO_DIRECT_DEBIT', 'rb_payment_sdd');
+define('PAYMORROW_TAG_ID_DIV_INVOCE', 'pminvoice');
+define('PAYMORROW_TAG_ID_DIV_DIRECT_DEBIT', 'pmsdd');
+define('PAYMORROW_TAG_ID_CHECKBOX_INVOCE', 'pm_accept_tac_inv');
+define('PAYMORROW_TAG_ID_CHECKBOX_DIRECT_DEBIT', 'pm_accept_tac_sdd');
+define('PAYMORROW_TAG_ID_IBAN', 'pm_bankaccount');
+define('PAYMORROW_TAG_ID_BIC', 'pm_blz');
+define('PAYMORROW_TAG_NAME_DOB_DAY', 'pm_customer_dateOfBirth_day');
+define('PAYMORROW_TAG_NAME_DOB_MONTH', 'pm_customer_dateOfBirth_month');
+define('PAYMORROW_TAG_NAME_DOB_YEAR', 'pm_customer_dateOfBirth_year');
+define('PAYMORROW_TAG_NAME_PHONE', 'pm_customer_phoneNumber');
