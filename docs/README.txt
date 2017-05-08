@@ -8,10 +8,10 @@ OXID Professional Services
 oxps
 
 ==Shop Version==
-5.0.x/4.7.x - 5.2.x/4.9.x
+5.0.x/4.7.x - 6.0.x
 
 ==Version==
-1.0.1
+1.0.2
 
 ==Link==
 https://paymorrow.de/
