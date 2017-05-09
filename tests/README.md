@@ -65,6 +65,15 @@ vendor/bin/runtests
 
 ## Acceptance tests
 
+### Requirements for acceptance tests
+
+Besides general requirements (see section on top), the following is needed to run Acceptance tests:
+
+ - Installed and working OXID eShop with standard Demo Data
+ - The eShop environment should be able to reach Paymorrow Test API
+ - Paymorrow Test Credentials are required and configuration performed (see next section)
+ - Depending on testing system, Test Library config might require adjustments
+
 ### Acceptance tests configuration
 
 Copy `oxideshop/source/modules/oxps/paymorrow/tests/paymorrow_config.php.dist` to 
