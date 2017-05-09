@@ -31,7 +31,7 @@
  */
 
 if (!defined('PAYMORROW_CONFIG')) {
-    include(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'paymorrow_config.php');
+    include(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'additional.inc.php');
 }
 
 /**
