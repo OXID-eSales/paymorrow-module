@@ -60,7 +60,7 @@ class OxpsPaymorrowOxPaymentGateway extends OxpsPaymorrowOxPaymentGateway_parent
         /** @var oxUserPayment|OxpsPaymorrowOxUserPayment $oUserPayment */
         $oUserPayment = $this->_oPaymentInfo;
 
-        if ($oUserPayment->isUserPaymentPaymorrowMethod()) {
+        if (is_object($oUserPayment) && $oUserPayment->isUserPaymentPaymorrowMethod()) {
 
             // Set real order ID (OXID field) to session to be used in order confirmation during payment.
             $oOrderId = $oOrder->getId();
