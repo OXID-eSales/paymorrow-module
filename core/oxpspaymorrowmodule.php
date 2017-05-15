@@ -78,11 +78,26 @@ class OxpsPaymorrowModule extends oxModule
     }
 
     /**
+     * Check if module was ever installed on eShop.
+     * Verifies if a custom field exists.
+     *
+     * @return bool
+     */
+    public static function isModuleInstalled()
+    {
+        $result = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getOne("SHOW COLUMNS FROM `oxpayments` LIKE 'OXPSPAYMORROWACTIVE'");
+
+        return ('OXPSPAYMORROWACTIVE' === $result);
+    }
+
+    /**
      * Module activation script: executes docs/install.sql, rebuilds views and clears cache.
      */
     public static function onActivate()
     {
-        self::_dbEvent( 'install.sql', 'Error activating module: ' );
+        if (!self::isModuleInstalled()) {
+            self::_dbEvent('install.sql', 'Error activating module: ');
+        }
     }
 
     /**
