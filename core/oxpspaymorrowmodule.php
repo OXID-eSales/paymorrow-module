@@ -46,6 +46,9 @@ class OxpsPaymorrowModule extends oxModule
     /**
      * Class constructor.
      * Sets main module data and load additional data.
+     *
+     * @param string $sModuleTitle
+     * @param string $sModuleDescription
      */
     function __construct( $sModuleTitle = 'Paymorrow Payments',
                           $sModuleDescription = 'Paymorrow Payments Module' )
@@ -402,12 +405,12 @@ class OxpsPaymorrowModule extends oxModule
         try {
             $oDb  = oxDb::getDb();
             $sSql = file_get_contents( dirname( __FILE__ ) . '/../docs/' . (string) $sSqlFile );
-            $aSql = explode( ';', $sSql );
+            $aSql = explode( ';', trim($sSql));
 
             if ( !empty( $aSql ) ) {
                 foreach ( $aSql as $sQuery ) {
                     if ( !empty( $sQuery ) ) {
-                        $oDb->execute( $sQuery );
+                        $oDb->execute(trim($sQuery));
                     }
                 }
 
