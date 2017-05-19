@@ -199,13 +199,13 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
      *
      * @codeCoverageIgnore
      *
-     * @param oxBasket $oBasket
-     * @param oxUser   $oUser
-     * @param bool     $blRecalculatingOrder
+     * @param oxBasket      $oBasket
+     * @param oxUser|null   $oUser
+     * @param bool          $blRecalculatingOrder
      *
      * @return mixed
      */
-    protected function _OxpsPaymorrowOxOrder_finalizeOrder_parent( oxBasket $oBasket, oxUser $oUser,
+    protected function _OxpsPaymorrowOxOrder_finalizeOrder_parent( oxBasket $oBasket, $oUser,
                                                                    $blRecalculatingOrder = false )
     {
         return parent::finalizeOrder( $oBasket, $oUser, $blRecalculatingOrder );
