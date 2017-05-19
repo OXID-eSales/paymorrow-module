@@ -46,6 +46,9 @@ class OxpsPaymorrowModule extends oxModule
     /**
      * Class constructor.
      * Sets main module data and load additional data.
+     *
+     * @param string $sModuleTitle
+     * @param string $sModuleDescription
      */
     function __construct( $sModuleTitle = 'Paymorrow Payments',
                           $sModuleDescription = 'Paymorrow Payments Module' )
@@ -78,11 +81,26 @@ class OxpsPaymorrowModule extends oxModule
     }
 
     /**
+     * Check if module was ever installed on eShop.
+     * Verifies if a custom field exists.
+     *
+     * @return bool
+     */
+    public static function isModuleInstalled()
+    {
+        $result = oxDb::getDb(oxDb::FETCH_MODE_ASSOC)->getOne("SHOW COLUMNS FROM `oxpayments` LIKE 'OXPSPAYMORROWACTIVE'");
+
+        return ('OXPSPAYMORROWACTIVE' === $result);
+    }
+
+    /**
      * Module activation script: executes docs/install.sql, rebuilds views and clears cache.
      */
     public static function onActivate()
     {
-        self::_dbEvent( 'install.sql', 'Error activating module: ' );
+        if (!self::isModuleInstalled()) {
+            self::_dbEvent('install.sql', 'Error activating module: ');
+        }
     }
 
     /**
@@ -387,12 +405,12 @@ class OxpsPaymorrowModule extends oxModule
         try {
             $oDb  = oxDb::getDb();
             $sSql = file_get_contents( dirname( __FILE__ ) . '/../docs/' . (string) $sSqlFile );
-            $aSql = explode( ';', $sSql );
+            $aSql = explode( ';', trim($sSql));
 
             if ( !empty( $aSql ) ) {
                 foreach ( $aSql as $sQuery ) {
                     if ( !empty( $sQuery ) ) {
-                        $oDb->execute( $sQuery );
+                        $oDb->execute(trim($sQuery));
                     }
                 }
 
