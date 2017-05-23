@@ -120,7 +120,7 @@ class OxpsPaymorrowModule extends oxModule
      */
     public static function cleanTmp( $sClearFolderPath = '' )
     {
-        $sTempFolderPath = oxRegistry::getConfig()->getConfigParam( 'sCompileDir' );
+        $sTempFolderPath = realpath(oxRegistry::getConfig()->getConfigParam( 'sCompileDir' ));
 
         if ( !empty( $sClearFolderPath ) and
              ( strpos( $sClearFolderPath, $sTempFolderPath ) !== false ) and

@@ -192,7 +192,7 @@ class Unit_Module_Core_OxpsPaymorrowResourceCacheTest extends OxidTestCase
 
     public function testCleanCache_removeAllREsourceCacheFolderFiles()
     {
-        $sCacheFolder = oxRegistry::getConfig()->getConfigParam( 'sCompileDir' ) . DIRECTORY_SEPARATOR . 'test_media';
+        $sCacheFolder = realpath(oxRegistry::getConfig()->getConfigParam( 'sCompileDir' )) . DIRECTORY_SEPARATOR . 'test_media';
 
         $this->SUT->setCacheFolder( 'test_media' );
 
