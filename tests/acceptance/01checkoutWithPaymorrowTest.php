@@ -77,6 +77,8 @@ class Acceptance_01checkoutWithPaymorrowTest extends OxidEsales\TestingLibrary\A
             exit( 'Paymorrow tests are not configured. Please set it up in "paymorrow_config.php" file.' . PHP_EOL );
         }
 
+        $this->activateTheme('azure');
+
         // Start Mink session wuth Selenium driver
         $this->startMinkSession( 'selenium' );
 
