@@ -105,12 +105,12 @@ class Acceptance_02administrationOfPaymorrowTest extends OxidEsales\TestingLibra
         // First deactivate module for the activation test if it is active already
         if ($this->isElementPresent('//input[@id="module_deactivate"]')) {
             $this->clickAndWaitFrame('//input[@id="module_deactivate"]', 'list');
-            $this->waitForFrameToLoad('edit', 5000000, true);
+            $this->waitForFrameToLoad('edit');
         }
 
         // Check and click "Activate" button
         $this->clickAndWait('//input[@id="module_activate"]');
-        $this->waitForFrameToLoad('edit', 5000000, true);
+        $this->waitForFrameToLoad('edit');
         // Check if the module was activated properly
         $this->assertElementPresent('//input[@id="module_deactivate"]', 'Now button "Deactivate" should appear.');
 
