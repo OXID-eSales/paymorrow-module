@@ -419,10 +419,10 @@ class OxpsPaymorrowModule extends oxModule
             error_log( $sFailureError . $ex->getMessage() );
         }
 
+        self::cleanTmp();
+
         /** @var oxDbMetaDataHandler $oDbHandler */
         $oDbHandler = oxNew( 'oxDbMetaDataHandler' );
         $oDbHandler->updateViews();
-
-        self::cleanTmp();
     }
 }
