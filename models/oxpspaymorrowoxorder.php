@@ -69,13 +69,13 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
      * Sends an update order Id call to set order number instead of order OXID.
      * Triggers for complete order payed with a Paymorrow payment method.
      *
-     * @param oxBasket $oBasket
+     * @param \OxidEsales\Eshop\Application\Model\Basket $oBasket
      * @param oxUser                                              $oUser
      * @param bool                                                $blRecalculatingOrder
      *
      * @return mixed
      */
-    public function finalizeOrder( oxBasket $oBasket, $oUser, $blRecalculatingOrder = false )
+    public function finalizeOrder( \OxidEsales\Eshop\Application\Model\Basket $oBasket, $oUser, $blRecalculatingOrder = false )
     {
         $mReturn = $this->_OxpsPaymorrowOxOrder_finalizeOrder_parent( $oBasket, $oUser, $blRecalculatingOrder );
 
