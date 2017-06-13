@@ -10,7 +10,14 @@
     ],
     "extra": {
         "oxideshop": {
-            "target-directory": "oxps/paymorrow"
+            "target-directory": "oxps/paymorrow",
+            "blacklist-filter": [
+                "documentation/*",
+                "docs/README.txt",
+                "docs/CHANGELOG.txt",
+                "README.md",
+                "composer.json"
+            ]
         }
     }
 }
