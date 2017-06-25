@@ -8,6 +8,13 @@ Paymorrow-Plugin (OxpsOxid2Paymorrow)
 
 ## Installation
 
+### Module installation via composer
+
+In order to install the module via composer, run one of the following commands in commandline of your shop base directory 
+(where the shop's composer.json file resides).
+* **composer require oxid-esales/paymorrow-module:^2.0** to install the released version compatible with OXID eShop RC2
+* **composer require oxid-esales/paymorrow-module:dev-master** to install the latest unreleased version from github
+
 ### Activate Module
 
 Activate the module in administration area.
