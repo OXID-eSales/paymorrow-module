@@ -625,6 +625,8 @@ class Acceptance_02administrationOfPaymorrowTest extends OxidEsales\TestingLibra
         // Go to payment methods settings and check for Paymorrow tab and fields
         $this->selectMenu('Shop Settings', 'Payment Methods');
 
+        $this->filterPaymentMethod($sMethodDeName);
+
         // Select a payment method
         $this->assertElementPresent(
             sprintf(
@@ -713,5 +715,16 @@ class Acceptance_02administrationOfPaymorrowTest extends OxidEsales\TestingLibra
         }
 
         printf(PHP_EOL . 'LOCATOR "%s": "%s"' . PHP_EOL, $sLocator, $sContent);
+    }
+
+    /**
+     * Filter payment by description.
+     *
+     * @param $paymentDescription
+     */
+    private function filterPaymentMethod($paymentDescription)
+    {
+        $this->type("where[oxpayments][oxdesc]", $paymentDescription);
+        $this->clickAndWait("submitit");
     }
 }
