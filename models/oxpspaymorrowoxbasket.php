@@ -199,7 +199,7 @@ class OxpsPaymorrowOxBasket extends OxpsPaymorrowOxBasket_parent
         $aCosts = (array) $this->getCosts();
 
         foreach ( $aCosts as $sCost => $oPrice ) {
-            $aItemData = (array) $this->_validateCostPriceAndGetItsData( $oPrice, $iLineItem, $sCost ); // TODO DDR
+            $aItemData = (array) $this->_validateCostPriceAndGetItsData( $oPrice, $iLineItem, $sCost );
 
             if ( !empty( $aItemData ) ) {
                 $aCostItems = array_merge( $aCostItems, $aItemData );

@@ -163,6 +163,26 @@ class OxpsPaymorrowResponseHandler extends oxSuperCfg //implements PaymorrowWsRe
     }
 
     /**
+     * Check of order was accepted with no error codes.
+     *
+     * @return bool
+     */
+    public function wasAccepted()
+    {
+        if ( $this->hasErrors() ) {
+            return false;
+        }
+
+        $aResponse = $this->getResponse();
+
+        if ( !empty( $aResponse['pm_order_status'] ) && $aResponse['pm_order_status'] === 'ACCEPTED' ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Returns first match of client error code.
      *
      * @param array $aResponseData

@@ -66,6 +66,32 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
 
     /**
      * Overridden parent method.
+     * Trigger payment (pending order) validation, similar as in checkout payment step.
+     *
+     * @param oxBasket $oBasket
+     *
+     * @return null|int
+     */
+    public function validatePayment( $oBasket )
+    {
+        $mReturn = $this->_OxpsPaymorrowOxOrder_validatePayment_parent( $oBasket );
+
+        if ( is_null( $mReturn ) ) {
+
+            /** @var OxpsPaymorrowRequestControllerProxy $pmGateWay */
+            $pmGateWay = oxNew( 'OxpsPaymorrowRequestControllerProxy');
+
+            if ( !$pmGateWay->validatePendingOrder() ) {
+
+                return self::ORDER_STATE_INVALIDPAYMENT;
+            }
+        }
+
+        return $mReturn;
+    }
+
+    /**
+     * Overridden parent method.
      * Sends an update order Id call to set order number instead of order OXID.
      * Triggers for complete order payed with a Paymorrow payment method.
      *
@@ -193,6 +219,20 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
         return false;
     }
 
+
+    /**
+     * Parent `validatePayment` function call.
+     *
+     * @codeCoverageIgnore
+     *
+     * @param oxBasket $oBasket
+     *
+     * @return null|int
+     */
+    protected function _OxpsPaymorrowOxOrder_validatePayment_parent( $oBasket )
+    {
+        return parent::validatePayment( $oBasket );
+    }
 
     /**
      * Parent `finalizeOrder` function call.
