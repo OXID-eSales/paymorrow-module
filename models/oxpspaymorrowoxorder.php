@@ -73,6 +73,7 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
      * @param oxBasket $oBasket
      *
      * @return null|int
+     * @throws oxSystemComponentException
      */
     public function validatePayment( $oBasket )
     {

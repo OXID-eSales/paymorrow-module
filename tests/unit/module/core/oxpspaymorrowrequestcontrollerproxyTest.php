@@ -128,7 +128,7 @@ class Unit_Module_Core_OxpsPaymorrowRequestControllerProxyTest extends OxidTestC
     }
 
 
-    public function testPrepareOrder_responseErrorCode900_triggetSettingsUpdateAndCallSelfRecursively()
+    public function testPrepareOrder_responseErrorCode900_triggerSettingsUpdateAndCallSelfRecursively()
     {
         $aData = array('key' => 'val', 'field' => 'value');
 
@@ -173,6 +173,57 @@ class Unit_Module_Core_OxpsPaymorrowRequestControllerProxyTest extends OxidTestC
         );
 
         $this->assertSame( '{"response":"ERROR","code":900}', $SUT->prepareOrder( $aData ) );
+    }
+
+
+    public function testValidatePendingOrder()
+    {
+        // Data provider mock
+        $oDataProviderMock = $this->getMock( 'OxpsPaymorrowEshopDataProvider', array('collectEshopData') );
+        $oDataProviderMock->expects( $this->once() )->method( 'collectEshopData' )
+            ->will( $this->returnValue( array('merchantId' => 'test', 'request_id' => '123') ) );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowEshopDataProvider', $oDataProviderMock );
+
+        // Session data mock
+        $this->setSessionParam( 'pm_verify', array('pm_paymentMethod_name' => 'INVOICE') );
+
+        // Request controller mock
+        $aRequestData = array(
+            'merchantId' => 'test',
+            'request_id' => '123',
+            'pm_paymentMethod_name' => 'INVOICE'
+        );
+        $oRequestControllerMock = $this->getMock( 'RequestController', array('pmVerify') );
+        $oRequestControllerMock->expects( $this->once() )->method( 'pmVerify' )
+            ->with( $this->equalTo( $aRequestData ) )
+            ->will( $this->returnValue( array('pm_order_status' => 'ACCEPTED') ) );
+
+        // Logger mock
+        $oLogMock = $this->getMock( 'OxpsPaymorrowLogger', array('__construct', 'logWithType') );
+        $oLogMock->expects( $this->once() )->method( 'logWithType' )->with(
+            $this->equalTo( $aRequestData ),
+            $this->equalTo( 'Proxy-prepareOrderPOST_reValidate' )
+        );
+        oxRegistry::set( 'OxpsPaymorrowLogger', $oLogMock );
+
+        // Response handler mock
+        $oResponse = $this->getMock( 'OxpsPaymorrowResponseHandler', array('__call', 'setResponse', 'wasAccepted') );
+        $oResponse->expects( $this->once() )->method( 'setResponse' )
+            ->with($this->equalTo( array('pm_order_status' => 'ACCEPTED') ));
+        $oResponse->expects( $this->once() )->method( 'wasAccepted' )->will( $this->returnValue( true ) );
+        oxRegistry::set( 'OxpsPaymorrowResponseHandler', $oResponse );
+
+        // SUT mock
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $SUT */
+        $SUT = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__construct', '__call', '_getRequestController')
+        );
+        $SUT->expects( $this->once() )->method( '_getRequestController' )->will(
+            $this->returnValue( $oRequestControllerMock )
+        );
+
+        $this->assertTrue( $SUT->validatePendingOrder() );
     }
 
 

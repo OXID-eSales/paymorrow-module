@@ -39,7 +39,7 @@ class Unit_Module_Models_OxpsPaymorrowOxOrderTest extends OxidTestCase
 {
 
     /**
-     * @var OxpsPaymorrowOxOrder
+     * @var OxpsPaymorrowOxOrder|PHPUnit_Framework_MockObject_MockObject
      */
     protected $SUT;
 
@@ -56,7 +56,11 @@ class Unit_Module_Models_OxpsPaymorrowOxOrderTest extends OxidTestCase
         // SUT mock
         $this->SUT = $this->getMock(
             'OxpsPaymorrowOxOrder',
-            array('__construct', 'load', '_wasPaymorrowPaymentUsed', '_OxpsPaymorrowOxOrder_finalizeOrder_parent')
+            array(
+                '__construct', 'load', '_wasPaymorrowPaymentUsed',
+                '_OxpsPaymorrowOxOrder_validatePayment_parent',
+                '_OxpsPaymorrowOxOrder_finalizeOrder_parent'
+            )
         );
     }
 
@@ -85,6 +89,36 @@ class Unit_Module_Models_OxpsPaymorrowOxOrderTest extends OxidTestCase
 
         $this->assertEquals( $iOrderNumber, $this->SUT->getPaymorrowOrderNumber() );
     }
+
+    /**
+     * @throws oxSystemComponentException
+     */
+    public function testValidatePayment_errorCoderInParentCall_onlyReturnTheErrorCode()
+    {
+        $oBasketMock = new oxBasket();
+
+        /** @var OxpsPaymorrowOxPayment|oxPayment|PHPUnit_Framework_MockObject_MockObject $oPayment */
+        $oPayment = $this->getMock( 'oxPayment', array('__construct', 'load', 'isPaymorrowActiveAndMapped') );
+        $oPayment->expects( $this->never() )->method( 'load' );
+        $oPayment->expects( $this->never() )->method( 'isPaymorrowActiveAndMapped' );
+        oxTestModules::addModuleObject( 'oxPayment', $oPayment );
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGateway */
+        $oGateway = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__call', 'validatePendingOrder')
+        );
+        $oGateway->expects( $this->never() )->method( 'validatePendingOrder' );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGateway );
+
+        $this->SUT->expects( $this->once() )->method( '_OxpsPaymorrowOxOrder_validatePayment_parent' )
+            ->with( $this->equalTo( $oBasketMock ) )
+            ->will( $this->returnValue( 13 ) );
+
+        $this->assertSame( 13, $this->SUT->validatePayment( $oBasketMock ) );
+    }
+
+    // TODO DDR: 2. not loaded; 3. not mapped; 4. not validates; 5. validated
 
 
     public function testFinalizeOrder_orderStatusNotOk_justReturnParentCallResult()
