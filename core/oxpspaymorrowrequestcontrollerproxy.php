@@ -91,6 +91,35 @@ class OxpsPaymorrowRequestControllerProxy extends oxSuperCfg
     }
 
     /**
+     * Collect current basket data and make verification API call.
+     * Method is independent from JS of front-end forms, so marks terms and conditions as accepted.
+     * It should be used to re-validate already verified order, which user accepted on checkout payment step.
+     *
+     * @return bool
+     */
+    public function validatePendingOrder()
+    {
+        /** @var OxpsPaymorrowEshopDataProvider $dataProvider */
+        $dataProvider = oxNew( 'OxpsPaymorrowEshopDataProvider' );
+        $data = $dataProvider->collectEshopData();
+
+        // Combine basket data and payment session data
+        $session = $this->getConfig()->getSession();
+        $sessionData = (array) $session->getVariable( 'pm_verify' );
+        $data = array_merge( $data, $sessionData );
+
+        // Send order preparation/verification request
+        $aResponse = $this->_getRequestController()->pmVerify( $data );
+        oxRegistry::get( 'OxpsPaymorrowLogger' )->logWithType( $data, 'Proxy-prepareOrderPOST_reValidate' );
+
+        /** @var OxpsPaymorrowResponseHandler $oResponseHandler */
+        $oResponseHandler = oxRegistry::get( 'OxpsPaymorrowResponseHandler' );
+        $oResponseHandler->setResponse( $aResponse );
+
+        return (bool) $oResponseHandler->wasAccepted();
+    }
+
+    /**
      * Order confirmation call.
      *
      * @codeCoverageIgnore

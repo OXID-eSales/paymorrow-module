@@ -433,14 +433,40 @@ class Acceptance_01checkoutWithPaymorrowTest extends OxidEsales\TestingLibrary\A
             '"Order now" button should be present on the order confirmation page.'
         );
 
-        // Try to confirm order and check for error to be displayed
+        // Try to confirm order and if should still pass
         $this->clickAndWait( '//form[@id="orderConfirmAgbBottom"]//button[@type="submit"]' );
-        $this->assertElementNotPresent( '//div[@id="thankyouPage"]', 'User should not get to "Thank You" page.' );
-        $this->assertElementPresent( '//div[contains(@class, "status error")]', 'Error box should be on page' );
-        /*$this->assertElementPresent(
-            '//div[text()="%MESSAGE_PAYMENT_UNAVAILABLE_PAYMENT%"]',
-            'There should be a payment method error'
-        );*/ // Disabled due to translation dependency.
+        $this->assertElementPresent( '//div[@id="thankyouPage"]', 'User should be on "Thank You" page.' );
+
+        // Visit order history and find 3 items of article "3503"
+        $this->_oMinkSession->visit( shopURL . "en/order-history/?{$this->_sShopIdParam}" );
+        $this->assertElementPresent(
+            '//ul[@class="orderList"]/li/table[@class="orderitems"]',
+            'Order history should be not empty.'
+        );
+
+        // Find and check latest order number placeholder
+        $oOrderNumberHolder = $this->_oPage->find(
+            'xpath',
+            '//ul[@class="orderList"]/li/table[@class="orderitems"]//span[contains(@id, "accOrderNo_")]'
+        );
+        $this->assertNotNull( $oOrderNumberHolder );
+
+        // Get and check order number exists and is a numeric value
+        $sOrderNumber = trim( $oOrderNumberHolder->getText() );
+        $this->assertFalse( empty( $sOrderNumber ), 'Order number should not be empty.' );
+        $this->assertTrue( is_numeric( $sOrderNumber ), 'Order number should be a numeric value.' );
+
+        // Find order item and check quantity
+        $oOrderItemQty = $this->_oPage->find(
+            'xpath',
+            sprintf(
+                '//ul[@class="orderList"]/li/table[@class="orderitems"]//a[@id="accOrderLink_%d_1"]',
+                (int) $sOrderNumber
+            )
+        );
+        $this->assertNotNull( $oOrderItemQty );
+        $quantityText = $oOrderItemQty->getText();
+        $this->assertContains('3', $quantityText);
     }
 
 

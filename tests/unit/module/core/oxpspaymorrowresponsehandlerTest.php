@@ -240,6 +240,33 @@ class Unit_Module_Controllers_OxpsPaymorrowResponseHandlerTest extends OxidTestC
     }
 
 
+    public function testWasAccepted_errorInResponse_returnFalse()
+    {
+        $this->SUT->setErrorCode( 100 );
+
+        $this->assertFalse( $this->SUT->wasAccepted() );
+    }
+
+    public function testWasAccepted_responseNotSet_returnFalse()
+    {
+        $this->assertFalse( $this->SUT->wasAccepted() );
+    }
+
+    public function testWasAccepted_orderStatusIsNotEqualAccepted_returnFalse()
+    {
+        $this->SUT->setResponse( array('pm_order_status' => 'DECLINED') );
+
+        $this->assertFalse( $this->SUT->wasAccepted() );
+    }
+
+    public function testWasAccepted_orderStatusIsEqualAccepted_returnTrue()
+    {
+        $this->SUT->setResponse( array('pm_order_status' => 'ACCEPTED') );
+
+        $this->assertTrue( $this->SUT->wasAccepted() );
+    }
+
+
     public function testGetDeclinationDataFromResponse_responseNotSet_returnEmptyArray()
     {
         $this->assertSame( array(), $this->SUT->getDeclinationDataFromResponse() );

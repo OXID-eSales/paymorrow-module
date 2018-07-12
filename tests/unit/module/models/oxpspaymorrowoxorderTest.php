@@ -39,7 +39,7 @@ class Unit_Module_Models_OxpsPaymorrowOxOrderTest extends OxidTestCase
 {
 
     /**
-     * @var OxpsPaymorrowOxOrder
+     * @var OxpsPaymorrowOxOrder|PHPUnit_Framework_MockObject_MockObject
      */
     protected $SUT;
 
@@ -56,7 +56,11 @@ class Unit_Module_Models_OxpsPaymorrowOxOrderTest extends OxidTestCase
         // SUT mock
         $this->SUT = $this->getMock(
             'OxpsPaymorrowOxOrder',
-            array('__construct', 'load', '_wasPaymorrowPaymentUsed', '_OxpsPaymorrowOxOrder_finalizeOrder_parent')
+            array(
+                '__construct', 'load', '_wasPaymorrowPaymentUsed',
+                '_OxpsPaymorrowOxOrder_validatePayment_parent',
+                '_OxpsPaymorrowOxOrder_finalizeOrder_parent'
+            )
         );
     }
 
@@ -84,6 +88,163 @@ class Unit_Module_Models_OxpsPaymorrowOxOrderTest extends OxidTestCase
         $this->SUT->oxorder__oxordernr = new oxField( $iOrderNumber );
 
         $this->assertEquals( $iOrderNumber, $this->SUT->getPaymorrowOrderNumber() );
+    }
+
+    /**
+     * @throws oxSystemComponentException
+     */
+    public function testValidatePayment_errorCoderInParentCall_onlyReturnTheErrorCode()
+    {
+        $oBasketMock = new oxBasket();
+
+        /** @var OxpsPaymorrowOxPayment|oxPayment|PHPUnit_Framework_MockObject_MockObject $oPayment */
+        $oPayment = $this->getMock( 'oxPayment', array('__construct', 'load', 'isPaymorrowActiveAndMapped') );
+        $oPayment->expects( $this->never() )->method( 'load' );
+        $oPayment->expects( $this->never() )->method( 'isPaymorrowActiveAndMapped' );
+        oxTestModules::addModuleObject( 'oxPayment', $oPayment );
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGateway */
+        $oGateway = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__call', 'validatePendingOrder')
+        );
+        $oGateway->expects( $this->never() )->method( 'validatePendingOrder' );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGateway );
+
+        $this->SUT->expects( $this->once() )->method( '_OxpsPaymorrowOxOrder_validatePayment_parent' )
+            ->with( $this->equalTo( $oBasketMock ) )
+            ->will( $this->returnValue( 13 ) );
+
+        $this->assertSame( 13, $this->SUT->validatePayment( $oBasketMock ) );
+    }
+
+    /**
+     * @throws oxSystemComponentException
+     */
+    public function testValidatePayment_paymentMethodNotLoaded_returnParentCallResult()
+    {
+        $oBasketMock = new oxBasket();
+        $oBasketMock->setPayment('super_invoice');
+
+        /** @var OxpsPaymorrowOxPayment|oxPayment|PHPUnit_Framework_MockObject_MockObject $oPayment */
+        $oPayment = $this->getMock( 'oxPayment', array('__construct', 'load', 'isPaymorrowActiveAndMapped') );
+        $oPayment->expects( $this->once() )->method( 'load' )
+            ->with( 'super_invoice' )
+            ->will( $this->returnValue( false ) );
+        $oPayment->expects( $this->never() )->method( 'isPaymorrowActiveAndMapped' );
+        oxTestModules::addModuleObject( 'oxPayment', $oPayment );
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGateway */
+        $oGateway = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__call', 'validatePendingOrder')
+        );
+        $oGateway->expects( $this->never() )->method( 'validatePendingOrder' );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGateway );
+
+        $this->SUT->expects( $this->once() )->method( '_OxpsPaymorrowOxOrder_validatePayment_parent' )
+            ->with( $this->equalTo( $oBasketMock ) )
+            ->will( $this->returnValue( null ) );
+
+        $this->assertNull( $this->SUT->validatePayment( $oBasketMock ) );
+    }
+
+    /**
+     * @throws oxSystemComponentException
+     */
+    public function testValidatePayment_paymentMethodIsNotOneOfPaymorrow_returnParentCallResult()
+    {
+        $oBasketMock = new oxBasket();
+        $oBasketMock->setPayment('super_invoice');
+
+        /** @var OxpsPaymorrowOxPayment|oxPayment|PHPUnit_Framework_MockObject_MockObject $oPayment */
+        $oPayment = $this->getMock( 'oxPayment', array('__construct', 'load', 'isPaymorrowActiveAndMapped') );
+        $oPayment->expects( $this->once() )->method( 'load' )
+            ->with( 'super_invoice' )
+            ->will( $this->returnValue( true ) );
+        $oPayment->expects( $this->once() )->method( 'isPaymorrowActiveAndMapped' )
+            ->will( $this->returnValue( false ) );
+        oxTestModules::addModuleObject( 'oxPayment', $oPayment );
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGateway */
+        $oGateway = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__call', 'validatePendingOrder')
+        );
+        $oGateway->expects( $this->never() )->method( 'validatePendingOrder' );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGateway );
+
+        $this->SUT->expects( $this->once() )->method( '_OxpsPaymorrowOxOrder_validatePayment_parent' )
+            ->with( $this->equalTo( $oBasketMock ) )
+            ->will( $this->returnValue( null ) );
+
+        $this->assertNull( $this->SUT->validatePayment( $oBasketMock ) );
+    }
+
+    /**
+     * @throws oxSystemComponentException
+     */
+    public function testValidatePayment_pendingPaymentIsNotValid_returnInvalidPaymentErrorCode()
+    {
+        $oBasketMock = new oxBasket();
+        $oBasketMock->setPayment('super_invoice');
+
+        /** @var OxpsPaymorrowOxPayment|oxPayment|PHPUnit_Framework_MockObject_MockObject $oPayment */
+        $oPayment = $this->getMock( 'oxPayment', array('__construct', 'load', 'isPaymorrowActiveAndMapped') );
+        $oPayment->expects( $this->once() )->method( 'load' )
+            ->with( 'super_invoice' )
+            ->will( $this->returnValue( true ) );
+        $oPayment->expects( $this->once() )->method( 'isPaymorrowActiveAndMapped' )
+            ->will( $this->returnValue( true ) );
+        oxTestModules::addModuleObject( 'oxPayment', $oPayment );
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGateway */
+        $oGateway = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__call', 'validatePendingOrder')
+        );
+        $oGateway->expects( $this->once() )->method( 'validatePendingOrder' )
+            ->will( $this->returnValue( false ) );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGateway );
+
+        $this->SUT->expects( $this->once() )->method( '_OxpsPaymorrowOxOrder_validatePayment_parent' )
+            ->with( $this->equalTo( $oBasketMock ) )
+            ->will( $this->returnValue( null ) );
+
+        $this->assertSame( 5, $this->SUT->validatePayment( $oBasketMock ) );
+    }
+
+    /**
+     * @throws oxSystemComponentException
+     */
+    public function testValidatePayment_pendingPaymentValid_returnParentCallResult()
+    {
+        $oBasketMock = new oxBasket();
+        $oBasketMock->setPayment('super_invoice');
+
+        /** @var OxpsPaymorrowOxPayment|oxPayment|PHPUnit_Framework_MockObject_MockObject $oPayment */
+        $oPayment = $this->getMock( 'oxPayment', array('__construct', 'load', 'isPaymorrowActiveAndMapped') );
+        $oPayment->expects( $this->once() )->method( 'load' )
+            ->with( 'super_invoice' )
+            ->will( $this->returnValue( true ) );
+        $oPayment->expects( $this->once() )->method( 'isPaymorrowActiveAndMapped' )
+            ->will( $this->returnValue( true ) );
+        oxTestModules::addModuleObject( 'oxPayment', $oPayment );
+
+        /** @var OxpsPaymorrowRequestControllerProxy|PHPUnit_Framework_MockObject_MockObject $oGateway */
+        $oGateway = $this->getMock(
+            'OxpsPaymorrowRequestControllerProxy',
+            array('__call', 'validatePendingOrder')
+        );
+        $oGateway->expects( $this->once() )->method( 'validatePendingOrder' )
+            ->will( $this->returnValue( true ) );
+        oxTestModules::addModuleObject( 'OxpsPaymorrowRequestControllerProxy', $oGateway );
+
+        $this->SUT->expects( $this->once() )->method( '_OxpsPaymorrowOxOrder_validatePayment_parent' )
+            ->with( $this->equalTo( $oBasketMock ) )
+            ->will( $this->returnValue( null ) );
+
+        $this->assertNull( $this->SUT->validatePayment( $oBasketMock ) );
     }
 
 
