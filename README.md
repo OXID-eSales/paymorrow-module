@@ -48,6 +48,10 @@ If Your shop version is 4.7.6/5.0.6 or older, You need to merge an admin templat
 
 Basically it is about adding a block named "admin_module_config_form" to the template.
 
+## Bugs and Issues
+
+If you experience any bugs or issues, please report them in the section **Module Paymorrow** of https://bugs.oxid-esales.com.
+
 ## User Manuals
 
 Please find full user manuals inside `documentation/` folder.
