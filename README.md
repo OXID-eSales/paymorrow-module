@@ -39,15 +39,6 @@ Map Your Payment methods `Admin Backend -> Shop Settings -> Payments methods -> 
 If You have many sub-shops and more languages than English and German,
 please see comments in `docs/install.sql` to install all CMS snippets manually.
 
-### For Old eShop Version
-
-If Your shop version is 4.7.6/5.0.6 or older, You need to merge an admin template for module settings to extend:
- - Merge an example template from the module changed_full/application/views/admin/tpl/module_config.tpl
-   with eShop template located in application/views/admin/tpl/module_config.tpl
- - Clear the cache by removing tmp/ folder content (all except .htaccess file)
-
-Basically it is about adding a block named "admin_module_config_form" to the template.
-
 ## Bugs and Issues
 
 If you experience any bugs or issues, please report them in the section **Module Paymorrow** of https://bugs.oxid-esales.com.
