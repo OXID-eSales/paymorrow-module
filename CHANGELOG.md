@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 ### Changed
+ - Acceptance tests adjusted to run on OXID Testing Library v3.0+
 
 ### Deprecated
 
@@ -20,6 +21,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 
 [Unreleased]: https://github.com/OXID-eSales/paymorrow-module/compare/HEAD...HEAD
+
+## [v2.0.2]
+
+### Changed
+ - Acceptance tests adjusted to run on OXID Testing Library v3.0+
 
 ## [v2.0.1]
 

@@ -30,60 +30,14 @@
  * the OXID module for Paymorrow payment. If not, see <http://www.gnu.org/licenses/>.
  */
 
-if (!defined('PAYMORROW_CONFIG')) {
-    include(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'additional.inc.php');
-}
+include_once 'PaymorrowAcceptanceTestCase.php';
 
 /**
  * Class Acceptance_02administrationOfPaymorrowTest.
  * Test Paymorrow module administration and back end behaviour.
  */
-class Acceptance_02administrationOfPaymorrowTest extends OxidEsales\TestingLibrary\AcceptanceTestCase
+class Acceptance_02administrationOfPaymorrowTest extends PaymorrowAcceptanceTestCase
 {
-
-    /**
-     * @var bool
-     */
-    protected $_blStartMinkSession = false;
-
-    /**
-     * @var null|\Behat\Mink\Session
-     */
-    protected $_oMinkSession = null;
-
-    /**
-     * @var null|DocumentElement
-     */
-    protected $_oPage = null;
-
-    /**
-     * How much more time wait for these tests.
-     */
-    protected $_iWaitTimeMultiplier = 9;
-
-
-    /**
-     * Prepare shop for testing.
-     */
-    public function setUp()
-    {
-        parent::setUp();
-
-        if (!PAYMORROW_CONFIG) {
-            exit('Paymorrow tests are not configured. Please set it up in "paymorrow_config.php" file.' . PHP_EOL);
-        }
-
-        $this->activateTheme('azure');
-
-        // Start Mink session wuth Selenium driver
-        $this->startMinkSession('selenium');
-
-        // Get page
-        $this->_oMinkSession = $this->getMinkSession();
-        $this->_oPage = $this->_oMinkSession->getPage();
-    }
-
-
     public function testPaymorrowModuleIsInModulesList()
     {
         $this->loginAdmin('Extensions', 'Modules', true, PAYMORROW_USER_ADMIN, PAYMORROW_USER_ADMIN);
