@@ -179,7 +179,7 @@ $aModule = array(
             'group' => 'oxpsPaymorrowConfiguration',
             'name'  => 'paymorrowSandboxMode',
             'type'  => 'bool',
-            'value' => '1'
+            'value' => true
         ),
         array(
             'group' => 'oxpsPaymorrowConfiguration',
@@ -233,7 +233,7 @@ $aModule = array(
             'group' => 'oxpsPaymorrowConfiguration',
             'name'  => 'paymorrowLoggingEnabled',
             'type'  => 'bool',
-            'value' => '0'
+            'value' => false
         ),
         array(
             'group' => 'oxpsPaymorrowConfiguration',
@@ -281,13 +281,13 @@ $aModule = array(
             'group' => 'oxpsPaymorrowProfileUpdate',
             'name'  => 'paymorrowUpdateAddresses',
             'type'  => 'bool',
-            'value' => '1'
+            'value' => true
         ),
         array(
             'group' => 'oxpsPaymorrowProfileUpdate',
             'name'  => 'paymorrowUpdatePhones',
             'type'  => 'bool',
-            'value' => '1'
+            'value' => true
         ),
     ),
     'events'      => array(
