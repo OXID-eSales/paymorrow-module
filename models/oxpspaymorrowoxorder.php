@@ -71,13 +71,14 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
      * @see \oxOrder::validatePayment()
      *
      * @param oxBasket $oBasket
+     * @param oxUser   $oUser
      *
      * @return null|int
      * @throws oxSystemComponentException
      */
-    public function validatePayment( $oBasket )
+    public function validatePayment( $oBasket, $oUser = null )
     {
-        $mReturn = $this->_OxpsPaymorrowOxOrder_validatePayment_parent( $oBasket );
+        $mReturn = $this->_OxpsPaymorrowOxOrder_validatePayment_parent( $oBasket, $oUser );
 
         if ( is_null( $mReturn ) ) {
 
@@ -240,9 +241,9 @@ class OxpsPaymorrowOxOrder extends OxpsPaymorrowOxOrder_parent
      *
      * @return null|int
      */
-    protected function _OxpsPaymorrowOxOrder_validatePayment_parent( $oBasket )
+    protected function _OxpsPaymorrowOxOrder_validatePayment_parent( $oBasket, $oUser = null )
     {
-        return parent::validatePayment( $oBasket );
+        return parent::validatePayment( $oBasket, $oUser );
     }
 
     /**
