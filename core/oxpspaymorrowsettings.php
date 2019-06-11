@@ -122,10 +122,11 @@ class OxpsPaymorrowSettings extends OxpsPaymorrowModule
     {
         /** @var  $oPmModule oxModule|OxpsPaymorrowModule */
         $oPmModule = oxRegistry::get( 'OxpsPaymorrowModule' );
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
 
         return sprintf(
             'Oxid-%s_%s',
-            $this->getConfig()->getVersion(), // Shop Version
+            $config->getVersion(), // Shop Version
             $oPmModule->getPaymorrowModuleVersion() // Paymorrow Module version
         );
     }

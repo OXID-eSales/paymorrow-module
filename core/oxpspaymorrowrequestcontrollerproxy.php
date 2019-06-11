@@ -104,7 +104,7 @@ class OxpsPaymorrowRequestControllerProxy extends oxSuperCfg
         $data = $dataProvider->collectEshopData();
 
         // Combine basket data and payment session data
-        $session = $this->getConfig()->getSession();
+        $session = \OxidEsales\Eshop\Core\Registry::getSession();
         $sessionData = (array) $session->getVariable( 'pm_verify' );
         $data = array_merge( $data, $sessionData );
 

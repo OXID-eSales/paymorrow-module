@@ -245,7 +245,8 @@ class OxpsPaymorrowOxUser extends OxpsPaymorrowOxUser_parent
      */
     public function getUserPaymorrowSessionId()
     {
-        return $this->getSession()->getId();
+        $session = \OxidEsales\Eshop\Core\Registry::getSession();
+        return $session->getId();
     }
 
     /**
@@ -255,7 +256,8 @@ class OxpsPaymorrowOxUser extends OxpsPaymorrowOxUser_parent
      */
     public function getUserPaymorrowUserBasketFromSession()
     {
-        return $this->getSession()->getBasket();
+        $session = \OxidEsales\Eshop\Core\Registry::getSession();
+        return $session->getBasket();
     }
 
     /**

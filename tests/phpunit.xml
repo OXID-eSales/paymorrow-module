@@ -8,6 +8,7 @@
          forceCoversAnnotation="false"
          mapTestClassNameToCoveredClassName="false"
          processIsolation="false"
+         printerClass="\OxidEsales\TestingLibrary\Printer"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"

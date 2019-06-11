@@ -138,7 +138,8 @@ class OxpsPaymorrowInit extends oxWidget
      */
     protected function _getShopBaseLink()
     {
-        return (string) str_replace('&amp;', '&', $this->getConfig()->getShopSecureHomeURL());
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
+        return (string) str_replace('&amp;', '&', $config->getShopSecureHomeURL());
     }
 
     /**

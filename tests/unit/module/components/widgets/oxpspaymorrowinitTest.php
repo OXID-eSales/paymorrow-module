@@ -95,10 +95,9 @@ class Unit_Module_Components_OxpsPaymorrowInitTest extends OxidTestCase
             $this->returnValue( 'http://www.example.com/index.php?' )
         );
 
-        $SUT = $this->getMock( 'OxpsPaymorrowInit', array('getConfig') );
-        $SUT->expects( $this->once() )->method( 'getConfig' )->will(
-            $this->returnValue( $oConfigMock )
-        );
+        \OxidEsales\Eshop\Core\Registry::set(\OxidEsales\Eshop\Core\Config::class, $oConfigMock);
+
+        $SUT = oxNew( 'OxpsPaymorrowInit' );
 
         $this->assertSame(
             'http://www.example.com/index.php?cl=oxpspaymorrowprepareorder&fnc=prepareOrder',

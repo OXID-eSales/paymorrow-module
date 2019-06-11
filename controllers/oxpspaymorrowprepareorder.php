@@ -70,13 +70,15 @@ class OxpsPaymorrowPrepareOrder extends oxUBase
      */
     protected function setPaymorrowPaymentMethodId()
     {
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
+
         /** @var oxPayment|OxpsPaymorrowOxPayment $payment */
         $payment = oxNew('oxPayment');
         $paymentIdField = self::OXPS_PAYMENT_ID_FIELD;
-        $paymentName = (string) $this->getConfig()->getRequestParameter(self::OXPS_PM_PAYMENT_NAME_FIELD);
+        $paymentName = (string) $config->getRequestParameter(self::OXPS_PM_PAYMENT_NAME_FIELD);
 
         if ($payment->loadByPaymorrowName($paymentName) and
-            !$this->getConfig()->getRequestParameter($paymentIdField)
+            !$config->getRequestParameter($paymentIdField)
         ) {
             $this->appendPostData(array($paymentIdField => (string) $payment->getId()));
         }

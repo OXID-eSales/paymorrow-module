@@ -53,7 +53,8 @@ class OxPsPaymorrowSessionMonitor extends oxWidget
      */
     public function getPaymorrowResourceControllerJavaScript()
     {
-        return (string) str_replace('&amp;', '&', $this->getConfig()->getShopSecureHomeURL()) .
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
+        return (string) str_replace('&amp;', '&', $config->getShopSecureHomeURL()) .
                'index.php?cl=oxpspaymorrowresource&fnc=getPaymorrowSessionMonitorJavaScript';
     }
 

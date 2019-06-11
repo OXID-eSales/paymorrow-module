@@ -347,7 +347,8 @@ class OxpsPaymorrowModule extends oxModule
      */
     public function getModuleVersions()
     {
-        return $this->getConfig()->getConfigParam( 'aModuleVersions' );
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
+        return $config->getConfigParam( 'aModuleVersions' );
     }
 
     /**

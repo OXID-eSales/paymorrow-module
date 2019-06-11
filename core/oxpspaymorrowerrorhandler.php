@@ -73,6 +73,7 @@ class OxpsPaymorrowErrorHandler extends OxpsPaymorrowModule
      */
     public function redirectWithError( $iErrorCode, $sController = 'order' )
     {
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
         $sErrorMessage = $this->getErrorByCode( $iErrorCode );
 
         // Set error
@@ -81,7 +82,7 @@ class OxpsPaymorrowErrorHandler extends OxpsPaymorrowModule
         oxRegistry::get( "oxUtilsView" )->addErrorToDisplay( $oEx, false );
 
         // Redirect (refresh page)
-        $sUrl = $this->getConfig()->getShopCurrentUrl() . "cl=" . $sController;
+        $sUrl = $config->getShopCurrentUrl() . "cl=" . $sController;
         $sUrl = oxRegistry::get( "oxUtilsUrl" )->processUrl( $sUrl );
         oxRegistry::getUtils()->redirect( $sUrl );
 

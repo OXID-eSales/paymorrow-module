@@ -360,7 +360,8 @@ class Unit_Module_Controllers_OxpsPaymorrowSettingsTest extends OxidTestCase
 
     public function test_getMpiSignature_shouldReturnConstructedMpiSignature()
     {
-        $sStartsWith = 'Oxid-' . $this->SUT->getConfig()->getVersion();
+        $config = \OxidEsales\Eshop\Core\Registry::getConfig();
+        $sStartsWith = 'Oxid-' . $config->getVersion();
 
         $this->assertStringStartsWith( $sStartsWith, $this->SUT->getMpiSignature() );
     }
