@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [Unreleased]
+## [2.0.2] - Unreleased
 
 ### Added
 
@@ -18,21 +18,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-### Security
-
-[Unreleased]: https://github.com/OXID-eSales/paymorrow-module/compare/HEAD...HEAD
-
-## [v2.0.2]
-
-### Changed
- - Acceptance tests adjusted to run on OXID Testing Library v3.0+
-
-## [v2.0.1]
+## [2.0.1] - 2018-07-12
 
 ### Changed
  - Improved payment data workflows in checkout process
 
-## [v2.0.0]
+## 2.0.0 - 2017-07-14
 
 ### Added
  - Compatibility with OXID eShop v6.x
@@ -44,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
  - Payment ID handling and Wrapping Cost VAT fixes for the eShop v6
 
-## [v1.0.1]
+## 1.0.1
 
 ### Added
  - User manuals extended for information on module integration in highly customized shops
@@ -52,5 +43,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
  - Paymorrow gateway updated to version "patch_20150129"
  
-## [v1.0.0]
+## 1.0.0
 Initial release.
+
+[2.0.2]: https://github.com/OXID-eSales/paymorrow-module/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/OXID-eSales/paymorrow-module/compare/v2.0.0...v2.0.1
