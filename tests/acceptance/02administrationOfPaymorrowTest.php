@@ -58,7 +58,7 @@ class Acceptance_02administrationOfPaymorrowTest extends PaymorrowAcceptanceTest
 
         // First deactivate module for the activation test if it is active already
         if ($this->isElementPresent('//input[@id="module_deactivate"]')) {
-            $this->clickAndWaitFrame('//input[@id="module_deactivate"]', 'list');
+            $this->clickAndWait('//input[@id="module_deactivate"]');
             $this->waitForFrameToLoad('edit');
         }
 

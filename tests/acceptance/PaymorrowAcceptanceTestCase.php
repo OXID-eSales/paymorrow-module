@@ -51,11 +51,6 @@ class PaymorrowAcceptanceTestCase extends OxidEsales\TestingLibrary\AcceptanceTe
     protected $_oPage = null;
 
     /**
-     * How much more time wait for these tests.
-     */
-    protected $_iWaitTimeMultiplier = 9;
-
-    /**
      * Prepare shop for testing.
      */
     public function setUp()
