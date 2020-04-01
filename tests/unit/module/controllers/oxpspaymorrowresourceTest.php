@@ -49,7 +49,7 @@ class Unit_Module_Controllers_OxpsPaymorrowResourceTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

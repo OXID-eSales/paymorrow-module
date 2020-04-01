@@ -130,10 +130,9 @@ class OxpsPaymorrowOxUserPayment extends OxpsPaymorrowOxUserPayment_parent
     public function load( $sOxId )
     {
         $sSQL = sprintf(
-            'SELECT `OXID`, `OXUSERID`, `OXPAYMENTSID`, DECODE( `OXVALUE`, "%s" ) AS `OXVALUE`,
+            'SELECT `OXID`, `OXUSERID`, `OXPAYMENTSID`, `OXVALUE`,
               `OXPSPAYMORROWBANKNAME`, `OXPSPAYMORROWIBAN`, `OXPSPAYMORROWBIC`, `OXPSPAYMORROWORDERID`
               FROM `oxuserpayments` WHERE `OXID` = %s',
-            $this->getPaymentKey(),
             oxDb::getDb()->quote( $sOxId )
         );
 

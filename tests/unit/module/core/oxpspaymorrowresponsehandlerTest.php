@@ -49,7 +49,7 @@ class Unit_Module_Controllers_OxpsPaymorrowResponseHandlerTest extends OxidTestC
      *
      * @return null|void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
