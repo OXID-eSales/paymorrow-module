@@ -31,15 +31,15 @@
  */
 
 /**
- * Class Unit_Module_Core_OxpsPaymorrowOxViewConfigTest
+ * Class OxpsPaymorrowErrorHandlerTest
  *
- * @see OxpsPaymorrowOxViewConfig
+ * @see OxpsPaymorrowErrorHandler
  */
-class Unit_Module_Core_OxpsPaymorrowOxViewConfigTest extends OxidTestCase
+class OxpsPaymorrowErrorHandlerTest extends OxidTestCase
 {
 
     /**
-     * @var OxpsPaymorrowOxViewConfig
+     * @var OxpsPaymorrowErrorHandler
      */
     protected $SUT;
 
@@ -54,28 +54,47 @@ class Unit_Module_Core_OxpsPaymorrowOxViewConfigTest extends OxidTestCase
         parent::setUp();
 
         // SUT mock
-        $this->SUT = new OxpsPaymorrowOxViewConfig();
+        $this->SUT = $this->getMock(
+            'OxpsPaymorrowErrorHandler',
+            array('__construct', 'load', 'init',)
+        );
     }
 
 
-    public function testGetPaymorrowMerchantId_callModuleSettingsClassGetMerchantIdMethod()
+    /**
+     * Mocking Proxy Class to test Protected methods
+     *
+     * IDE - might underline methods with RED color, PLEASE IGNORE
+     *
+     * @param array $aMethods
+     *
+     * @return OxpsPaymorrowErrorHandler
+     */
+    protected function _getProxySUT( array $aMethods = array() )
     {
-        $oSettingsMock = $this->getMock( 'OxpsPaymorrowSettings', array('getMerchantId') );
-        $oSettingsMock->expects( $this->once() )->method( 'getMerchantId' )->will( $this->returnValue( 'my_ID' ) );
-        oxRegistry::set( 'OxpsPaymorrowSettings', $oSettingsMock );
-
-        $this->assertSame( 'my_ID', $this->SUT->getPaymorrowMerchantId() );
+        return $this->getProxyClass(
+            'OxpsPaymorrowErrorHandler',
+            array_merge( array('__construct', 'load', 'init'), $aMethods )
+        );
     }
 
 
-    public function testGetActiveInterfaceLanguageAbbr_callServerUtilsForOxidAdminLanguageCookieValueAndReturnIt()
+    /**
+     * @param array $aMethods
+     *
+     * @return OxpsPaymorrowErrorHandler
+     */
+    protected function _getClassMock( array $aMethods = array() )
     {
-        $oServerUtilsMock = $this->getMock( 'oxUtilsServer', array('__construct', '__call', 'getOxCookie') );
-        $oServerUtilsMock->expects( $this->once() )->method( 'getOxCookie' )
-            ->with( $this->equalTo( 'oxidadminlanguage' ) )
-            ->will( $this->returnValue( 'en' ) );
-        oxRegistry::set( 'oxUtilsServer', $oServerUtilsMock );
+        return $this->getMock(
+            'OxpsPaymorrowErrorHandler',
+            array_merge( array('__construct', 'load', 'init'), $aMethods )
+        );
+    }
 
-        $this->assertSame( 'en', $this->SUT->getActiveInterfaceLanguageAbbr() );
+
+    public function test_getErrorByCode_shouldReturnDefaultError()
+    {
+        $this->assertEquals( $this->SUT->translateError( 'GENERAL_ERROR' ), $this->SUT->getErrorByCode( 33 ) );
     }
 }

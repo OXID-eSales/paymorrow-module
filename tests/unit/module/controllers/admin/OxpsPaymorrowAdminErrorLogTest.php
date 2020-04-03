@@ -31,15 +31,15 @@
  */
 
 /**
- * Class Unit_Module_Controllers_OxpsPaymorrowErrorHandlerTest
+ * Class OxpsPaymorrowAdminErrorLogTest
  *
- * @see OxpsPaymorrowErrorHandler
+ * @see OxpsPaymorrowAdminErrorLog
  */
-class Unit_Module_Controllers_OxpsPaymorrowErrorHandlerTest extends OxidTestCase
+class OxpsPaymorrowAdminErrorLogTest extends OxidTestCase
 {
 
     /**
-     * @var OxpsPaymorrowErrorHandler
+     * @var OxpsPaymorrowAdminErrorLog
      */
     protected $SUT;
 
@@ -54,47 +54,20 @@ class Unit_Module_Controllers_OxpsPaymorrowErrorHandlerTest extends OxidTestCase
         parent::setUp();
 
         // SUT mock
-        $this->SUT = $this->getMock(
-            'OxpsPaymorrowErrorHandler',
-            array('__construct', 'load', 'init',)
-        );
+        $this->SUT = $this->getMock( 'OxpsPaymorrowAdminErrorLog', array('__construct') );
     }
 
 
-    /**
-     * Mocking Proxy Class to test Protected methods
-     *
-     * IDE - might underline methods with RED color, PLEASE IGNORE
-     *
-     * @param array $aMethods
-     *
-     * @return OxpsPaymorrowErrorHandler
-     */
-    protected function _getProxySUT( array $aMethods = array() )
+    public function test_getPaymorrowErrorLog_shouldReturnPaymorrowErrorLogContents()
     {
-        return $this->getProxyClass(
-            'OxpsPaymorrowErrorHandler',
-            array_merge( array('__construct', 'load', 'init'), $aMethods )
+        $sContents = 'TEST_CONTENTS';
+
+        $oPmErrorLogMock = $this->getMock( 'OxpsPaymorrowLogger', array('__construct', 'getAllContents') );
+        $oPmErrorLogMock->expects( $this->once() )->method( 'getAllContents' )->will(
+            $this->returnValue( $sContents )
         );
-    }
+        oxTestModules::addModuleObject( 'OxpsPaymorrowLogger', $oPmErrorLogMock );
 
-
-    /**
-     * @param array $aMethods
-     *
-     * @return OxpsPaymorrowErrorHandler
-     */
-    protected function _getClassMock( array $aMethods = array() )
-    {
-        return $this->getMock(
-            'OxpsPaymorrowErrorHandler',
-            array_merge( array('__construct', 'load', 'init'), $aMethods )
-        );
-    }
-
-
-    public function test_getErrorByCode_shouldReturnDefaultError()
-    {
-        $this->assertEquals( $this->SUT->translateError( 'GENERAL_ERROR' ), $this->SUT->getErrorByCode( 33 ) );
+        $this->assertEquals( $sContents, $this->SUT->getPaymorrowErrorLog() );
     }
 }

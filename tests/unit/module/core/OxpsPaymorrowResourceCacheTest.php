@@ -31,11 +31,11 @@
  */
 
 /**
- * Class Unit_Module_Core_OxpsPaymorrowResourceCacheTest
+ * Class OxpsPaymorrowResourceCacheTest
  *
  * @see OxpsPaymorrowResourceCache
  */
-class Unit_Module_Core_OxpsPaymorrowResourceCacheTest extends OxidTestCase
+class OxpsPaymorrowResourceCacheTest extends OxidTestCase
 {
 
     /**

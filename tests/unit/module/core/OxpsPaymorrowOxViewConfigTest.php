@@ -31,15 +31,15 @@
  */
 
 /**
- * Class Unit_Module_Controllers_OxpsPaymorrowAdminErrorLogTest
+ * Class OxpsPaymorrowOxViewConfigTest
  *
- * @see OxpsPaymorrowAdminErrorLog
+ * @see OxpsPaymorrowOxViewConfig
  */
-class Unit_Module_Controllers_OxpsPaymorrowAdminErrorLogTest extends OxidTestCase
+class OxpsPaymorrowOxViewConfigTest extends OxidTestCase
 {
 
     /**
-     * @var OxpsPaymorrowAdminErrorLog
+     * @var OxpsPaymorrowOxViewConfig
      */
     protected $SUT;
 
@@ -54,20 +54,28 @@ class Unit_Module_Controllers_OxpsPaymorrowAdminErrorLogTest extends OxidTestCas
         parent::setUp();
 
         // SUT mock
-        $this->SUT = $this->getMock( 'OxpsPaymorrowAdminErrorLog', array('__construct') );
+        $this->SUT = new OxpsPaymorrowOxViewConfig();
     }
 
 
-    public function test_getPaymorrowErrorLog_shouldReturnPaymorrowErrorLogContents()
+    public function testGetPaymorrowMerchantId_callModuleSettingsClassGetMerchantIdMethod()
     {
-        $sContents = 'TEST_CONTENTS';
+        $oSettingsMock = $this->getMock( 'OxpsPaymorrowSettings', array('getMerchantId') );
+        $oSettingsMock->expects( $this->once() )->method( 'getMerchantId' )->will( $this->returnValue( 'my_ID' ) );
+        oxRegistry::set( 'OxpsPaymorrowSettings', $oSettingsMock );
 
-        $oPmErrorLogMock = $this->getMock( 'OxpsPaymorrowLogger', array('__construct', 'getAllContents') );
-        $oPmErrorLogMock->expects( $this->once() )->method( 'getAllContents' )->will(
-            $this->returnValue( $sContents )
-        );
-        oxTestModules::addModuleObject( 'OxpsPaymorrowLogger', $oPmErrorLogMock );
+        $this->assertSame( 'my_ID', $this->SUT->getPaymorrowMerchantId() );
+    }
 
-        $this->assertEquals( $sContents, $this->SUT->getPaymorrowErrorLog() );
+
+    public function testGetActiveInterfaceLanguageAbbr_callServerUtilsForOxidAdminLanguageCookieValueAndReturnIt()
+    {
+        $oServerUtilsMock = $this->getMock( 'oxUtilsServer', array('__construct', '__call', 'getOxCookie') );
+        $oServerUtilsMock->expects( $this->once() )->method( 'getOxCookie' )
+            ->with( $this->equalTo( 'oxidadminlanguage' ) )
+            ->will( $this->returnValue( 'en' ) );
+        oxRegistry::set( 'oxUtilsServer', $oServerUtilsMock );
+
+        $this->assertSame( 'en', $this->SUT->getActiveInterfaceLanguageAbbr() );
     }
 }
