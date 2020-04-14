@@ -31,11 +31,11 @@
  */
 
 /**
- * Class Unit_Module_Core_OxpsPaymorrowRequestControllerProxyTest
+ * Class OxpsPaymorrowRequestControllerProxyTest
  *
  * @see OxpsPaymorrowRequestControllerProxy
  */
-class Unit_Module_Core_OxpsPaymorrowRequestControllerProxyTest extends OxidTestCase
+class OxpsPaymorrowRequestControllerProxyTest extends OxidTestCase
 {
 
     public function testPrepareOrder_callUserUpdateAndPaymentMethodResetThenMakeOrderVerifyCallAndReturnResponseJson()

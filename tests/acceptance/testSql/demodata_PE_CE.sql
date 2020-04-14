@@ -333,4 +333,4 @@ INSERT IGNORE INTO `oxobject2group` (`OXID`, `OXSHOPID`, `OXOBJECTID`, `OXGROUPS
 --
 -- Force Azure theme
 --
-UPDATE `oxconfig` SET `OXVARVALUE` = 0x4db70f6d1a WHERE `OXVARNAME` = 'sTheme';
+UPDATE `oxconfig` SET `OXVARVALUE` = 'azure' WHERE `OXVARNAME` = 'sTheme';

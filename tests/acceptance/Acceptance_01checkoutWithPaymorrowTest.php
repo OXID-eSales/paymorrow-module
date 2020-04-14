@@ -430,7 +430,7 @@ class Acceptance_01checkoutWithPaymorrowTest extends PaymorrowAcceptanceTestCase
         );
         $this->assertNotNull( $oOrderItemQty );
         $quantityText = $oOrderItemQty->getText();
-        $this->assertContains('3', $quantityText);
+        $this->assertStringContainsString('3', $quantityText);
     }
 
 
@@ -690,7 +690,7 @@ class Acceptance_01checkoutWithPaymorrowTest extends PaymorrowAcceptanceTestCase
         $sLog = file_get_contents( $sConfirmedOrdersLogPath );
 
         $this->assertFalse( empty( $sLog ), 'Confirmed orders log should be not empty.' );
-        $this->assertContains(
+        $this->assertStringContainsString(
             sprintf( 'order_id: %s' . PHP_EOL . ' order_status: ACCEPTED_CONFIRMED', $sOrderId ),
             $sLog,
             'Confirmed orders log should contain the order with confirmed status.'

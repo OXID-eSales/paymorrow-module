@@ -31,11 +31,11 @@
  */
 
 /**
- * Class Unit_Module_Core_OxpsPaymorrowEshopDataProviderTest
+ * Class OxpsPaymorrowEshopDataProviderTest
  *
  * @see OxpsPaymorrowEshopDataProvider
  */
-class Unit_Module_Core_OxpsPaymorrowEshopDataProviderTest extends OxidTestCase
+class OxpsPaymorrowEshopDataProviderTest extends OxidTestCase
 {
 
     /**

@@ -31,11 +31,11 @@
  */
 
 /**
- * Class Unit_Module_Models_OxpsPaymorrowGatewayTest
+ * Class OxpsPaymorrowGatewayTest
  *
  * @see OxpsPaymorrowGateway
  */
-class Unit_Module_Core_OxpsPaymorrowGatewayTest extends OxidTestCase
+class OxpsPaymorrowGatewayTest extends OxidTestCase
 {
 
     /**

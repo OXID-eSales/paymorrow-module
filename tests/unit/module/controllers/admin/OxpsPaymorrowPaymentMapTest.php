@@ -38,11 +38,11 @@ if ( !class_exists( 'OxpsPaymorrowPaymentMap' ) ) {
 }
 
 /**
- * Class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest
+ * Class OxpsPaymorrowPaymentMapTest
  *
  * @see OxpsPaymorrowPaymentMap
  */
-class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest extends OxidTestCase
+class OxpsPaymorrowPaymentMapTest extends OxidTestCase
 {
 
     /**
