@@ -49,7 +49,7 @@ class Unit_Module_Models_OxpsPaymorrowOxBasketTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

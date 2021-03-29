@@ -49,7 +49,7 @@ class Unit_Module_Core_OxpsPaymorrowEshopDataProviderTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

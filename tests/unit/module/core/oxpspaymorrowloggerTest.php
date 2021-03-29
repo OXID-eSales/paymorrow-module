@@ -49,7 +49,7 @@ class Unit_Module_Core_OxpsPaymorrowLoggerTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -204,8 +204,8 @@ class Unit_Module_Core_OxpsPaymorrowLoggerTest extends OxidTestCase
 
         $sAllLog = $this->SUT->getAllContents();
 
-        $this->assertContains( 'LOG FILE ONE', $sAllLog );
-        $this->assertContains( 'SOME LOG TWO', $sAllLog );
+        $this->assertStringContainsString( 'LOG FILE ONE', $sAllLog );
+        $this->assertStringContainsString( 'SOME LOG TWO', $sAllLog );
 
         unlink( $sPath . 'log1.txt' );
         unlink( $sPath . 'log2.log' );

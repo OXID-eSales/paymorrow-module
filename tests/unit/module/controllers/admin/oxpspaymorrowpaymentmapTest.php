@@ -56,7 +56,7 @@ class Unit_Module_Controllers_OxpsPaymorrowPaymentMapTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

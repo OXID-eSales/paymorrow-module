@@ -46,7 +46,7 @@ class Acceptance_01checkoutWithPaymorrowTest extends PaymorrowAcceptanceTestCase
     /**
      * Prepare shop for testing.
      */
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
