@@ -204,10 +204,24 @@ class Unit_Module_Core_OxpsPaymorrowLoggerTest extends OxidTestCase
 
         $sAllLog = $this->SUT->getAllContents();
 
-        $this->assertStringContainsString( 'LOG FILE ONE', $sAllLog );
-        $this->assertStringContainsString( 'SOME LOG TWO', $sAllLog );
+        $this->doAssertStringContainsString( 'LOG FILE ONE', $sAllLog );
+        $this->doAssertStringContainsString( 'SOME LOG TWO', $sAllLog );
 
         unlink( $sPath . 'log1.txt' );
         unlink( $sPath . 'log2.log' );
+    }
+
+    /**
+     * @param string $needle
+     * @param string $haystack
+     * @param string $message
+     */
+    protected function doAssertStringContainsString($needle, $haystack, $message = '')
+    {
+        if (method_exists($this, 'assertStringContainsString')) {
+            parent::assertStringContainsString($needle, $haystack, $message);
+        } else {
+            parent::assertContains($needle, $haystack, $message);
+        }
     }
 }
