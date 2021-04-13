@@ -53,7 +53,7 @@ $aModule = array(
         <h2>Paymorrow-Plugin (OxpsOxid2Paymorrow)</h2>',
     ),
     'thumbnail'   => 'out/pictures/pmlogo.png',
-    'version'     => '2.0.2',
+    'version'     => '2.0.4',
     'author'      => 'OXID Professional Services',
     'url'         => 'https://paymorrow.de/',
     'email'       => 'info@oxid-esales.com',
