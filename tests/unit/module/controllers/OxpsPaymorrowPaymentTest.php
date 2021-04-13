@@ -49,7 +49,7 @@ class OxpsPaymorrowPaymentTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

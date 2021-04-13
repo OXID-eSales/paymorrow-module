@@ -49,7 +49,7 @@ class OxpsPaymorrowResourceCacheTest extends OxidTestCase
      *
      * @return null|void
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -60,7 +60,7 @@ class OxpsPaymorrowResourceCacheTest extends OxidTestCase
     /**
      * Clean up state after test.
      */
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         $sTempFolder = oxRegistry::getConfig()->getConfigParam( 'sCompileDir' ) . DIRECTORY_SEPARATOR . 'test_media';
 

@@ -53,7 +53,7 @@ class PaymorrowAcceptanceTestCase extends OxidEsales\TestingLibrary\AcceptanceTe
     /**
      * Prepare shop for testing.
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
