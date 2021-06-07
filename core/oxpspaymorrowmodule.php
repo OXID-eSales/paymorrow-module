@@ -85,6 +85,8 @@ class OxpsPaymorrowModule extends oxModule
      * Verifies if a custom field exists.
      *
      * @return bool
+     *
+     * @deprecated
      */
     public static function isModuleInstalled()
     {
@@ -94,17 +96,15 @@ class OxpsPaymorrowModule extends oxModule
     }
 
     /**
-     * Module activation script: executes docs/install.sql, rebuilds views and clears cache.
+     * Module activation script
      */
     public static function onActivate()
     {
-        if (!self::isModuleInstalled()) {
-            self::_dbEvent('install.sql', 'Error activating module: ');
-        }
+        self::cleanTmp();
     }
 
     /**
-     * Module deactivation script: clears cache.
+     * Module deactivation script
      */
     public static function onDeactivate()
     {

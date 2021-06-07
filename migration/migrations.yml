@@ -1,0 +1,4 @@
+name: Paymorrow module migration
+migrations_namespace: OxidProfessionalServices\Paymorrow\Migrations
+table_name: oxmigrations_paymorrow
+migrations_directory: data
