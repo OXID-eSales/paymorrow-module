@@ -19,7 +19,7 @@ Paymorrow-Plugin (OxpsOxid2Paymorrow)
 2. In case we install 2.1+ module version, run migrations:
 
 ```
-vendor/bin/oe-eshop-db_migrate migrations:status oxpspaymorrow
+vendor/bin/oe-eshop-db_migrate migrations:migrate oxpspaymorrow
 ```
 
 3. Activate the module in administration area.
