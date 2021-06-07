@@ -81,7 +81,15 @@ class OxpsPaymorrowModule extends oxModule
     }
 
     /**
-     * Module deactivation script: clears cache.
+     * Module activation script
+     */
+    public static function onActivate()
+    {
+        self::cleanTmp();
+    }
+
+    /**
+     * Module deactivation script
      */
     public static function onDeactivate()
     {
