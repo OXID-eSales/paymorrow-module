@@ -1,4 +1,4 @@
-# Paymorrow Payments
+# Paymorrow Payments [Deprecated and not supported since OXID eShop 6.3]
 
 Paymorrow Payments
 - Paymorrow-Homepage      : https://paymorrow.de/
