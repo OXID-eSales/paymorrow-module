@@ -116,7 +116,7 @@ class Unit_Module_Models_OxpsPaymorrowOxBasketTest extends OxidTestCase
             $this->returnValue( array(322.0, 44.0, 3.21) )
         );
 
-        $this->assertSame( 369.21, $this->SUT->getPaymorrowTotalVatAmount() );
+        $this->assertEquals( 369.21, $this->SUT->getPaymorrowTotalVatAmount() );
     }
 
     public function testGetPaymorrowTotalVatAmount_productsAndCostsVatsSet_returnSumOfAllVats()
@@ -134,7 +134,7 @@ class Unit_Module_Models_OxpsPaymorrowOxBasketTest extends OxidTestCase
             )
         );
 
-        $this->assertSame( 146.39, $this->SUT->getPaymorrowTotalVatAmount() );
+        $this->assertEquals( 146.39, $this->SUT->getPaymorrowTotalVatAmount() );
     }
 
     public function testGetPaymorrowTotalVatAmount_alsoPaymentSurchargeSet_returnSumOfAllVats()
