@@ -156,7 +156,7 @@ class Unit_Module_Models_OxpsPaymorrowOxBasketTest extends OxidTestCase
             $this->returnValue( $this->_getPriceMock( 5.0, 19.0 ) )
         );
 
-        $this->assertSame( 147.19, $this->SUT->getPaymorrowTotalVatAmount() );
+        $this->assertEquals( 147.19, $this->SUT->getPaymorrowTotalVatAmount() );
     }
 
 
